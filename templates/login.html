@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3個meta標籤*必須*放在最前面，任何其他內容都*必須*跟隨其後！ -->
+    <title>Login</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- HTML5 shim 和 Respond.js 是為了讓 IE8 支援 HTML5 元素和媒體查詢（media queries）功能 -->
+    <!-- 警告：通過 file:// 協議（就是直接將 html 頁面拖拽到瀏覽器中）訪問頁面時 Respond.js 不起作用 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        function get_login_response() {
+            var login_res;
+            if (window.XMLHttpRequest) {
+                login_res = new XMLHttpRequest();
+            }
+            else {
+                login_res = new ActiveXObject("Microsoft XMLHTTP");
+            }
+            login_res.onreadystatechange = function () {
+                if ((login_res.readyState == 4) && (login_res.status == 200)) {
+                    window.alert(login_res.responseText);
+                    console.log("login successful");
+                }
+            }
+
+        }
+  </script>
+    <style>
+
+    </style>
+</head>
+{% extends "base.html" %}
+<body>
+{% block test %}
+<div class="container">
+    <div class="form row">
+        <div class="form-horizontal col-md-offset-3" id="login_form">
+            <h1 class="form-title">Login</h1>
+            <form action="" method="post">{% csrf_token %}
+            <div class="col-md-9">
+                <div class="form-group">
+                    <i class="fa fa-user fa-lg"></i>
+                    <input class="form-control required" type="text" placeholder="Username" name="username" autofocus="autofocus" maxlength="20"/>
+                </div>
+                    <div class="form-group">
+                            <i class="fa fa-lock fa-lg"></i>
+                            <input class="form-control required" type="password" placeholder="Password" name="password" maxlength="8"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox">
+                            <input type="checkbox" name="remember" value="1"/>記住我
+                        </label>
+                    </div>
+                    <div class="form-group col-md-offset-9">
+                        <button type="submit" class="btn btn-success pull-right" name="login_btn" value="Submit" onclick="get_login_response()">登入</button>
+                    </div>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+    {% if messages %}
+        <script>
+            {% for msg in messages %}
+                alert('{{ msg.message }}');
+            {% endfor %}
+        </script>
+    {% endif %}
+{% endblock %}
+</body>
+</html>

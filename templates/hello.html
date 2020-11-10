@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+
+{% extends "base.html" %}
+
+
+<html lang="en">
+
+<head>
+    <title>I come from template!!</title>
+    <style>
+        body {
+            background-color: lightyellow;
+        }
+
+        em {
+            color: LightSeaGreen;
+        }
+    </style>
+</head>
+
+<body> 
+{% block test %}
+
+    <h1>Hello World!</h1>
+    <em>{{ current_time }}</em>
+    <p>{{ aa }}</p>
+    {% for name in name %}
+    <li>name:{{name.name}} password:{{name.password}}</li>
+    {% if name.img %}
+    <img src={{name.img}} width="200px" height="200px">
+    {% else %}
+    <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/OOjs_UI_icon_error-destructive.svg/1024px-OOjs_UI_icon_error-destructive.svg.png'
+        width="200px" height="200px">
+    {% endif %}
+    {% endfor %}
+
+    {% endblock %}
+</body>
+
+</html>
+
