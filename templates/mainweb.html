@@ -20,6 +20,8 @@
     <![endif]-->
     <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    {% load static %}
+    <script src="{% static 'js/Chart.js' %}"></script>
     <style type="text/css">
         html, body {width:100%;height:100%;} /*非常重要的樣式讓背景圖片100%適應整個螢幕*/
         .bg {display: table;width: 100%;height: 100%;padding: 100px 0;text-align: center;color: #fff;background: url("/static/img/safari-big.jpg") no-repeat bottom center;background-color: #000;background-size: cover;background-attachment: fixed;}
@@ -53,9 +55,54 @@
         </ul>
     </div>
 </div>
+
 </nav>
 
 <div class="bg">
+
+<div style="width:300px;height:300px;border:3px #cccccc dashed;">
+<canvas id="myChart" width="100" height="100"></canvas>
+<script>
+var ctx = document.getElementById('myChart').getContext('2d');
+var myChart = new Chart.Line(ctx, {//Doughnut (環狀圖)Pie (圓餅圖)Line (折線圖)Bar (柱狀圖)Radar (雷達圖)PolarArea (極地圖)
+    //type: 'bar',
+    data: {
+        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        datasets: [{
+            label: '# of Votes',
+            data: [12, 19, 3, 5, 2, 3],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
+</script>
+</div>
+
 </div>
 <br /><br /><br /><br /><br /><br /><br /><p><a href="#">XTY所有</a></p>
 <script>
