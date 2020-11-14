@@ -8,16 +8,6 @@
 from django.db import models
 
 
-class Register(models.Model):
-    username = models.CharField(max_length=20)
-    password = models.CharField(max_length=20)
-
-
-class Post(models.Model):
-    name = models.CharField(max_length=45)
-    password = models.CharField(max_length=45)
-
-
 class AuthGroup(models.Model):
     name = models.CharField(unique=True, max_length=150)
 
@@ -90,8 +80,7 @@ class DjangoAdminLog(models.Model):
     object_repr = models.CharField(max_length=200)
     action_flag = models.PositiveSmallIntegerField()
     change_message = models.TextField()
-    content_type = models.ForeignKey(
-        'DjangoContentType', models.DO_NOTHING, blank=True, null=True)
+    content_type = models.ForeignKey('DjangoContentType', models.DO_NOTHING, blank=True, null=True)
     user = models.ForeignKey(AuthUser, models.DO_NOTHING)
 
     class Meta:
@@ -130,8 +119,7 @@ class DjangoSession(models.Model):
 
 
 class Table1(models.Model):
-    # Field name made lowercase.
-    id = models.IntegerField(db_column='ID', primary_key=True)
+    id = models.AutoField(db_column='ID', primary_key=True)  # Field name made lowercase.
     name = models.CharField(max_length=45, blank=True, null=True)
     password = models.CharField(max_length=45, blank=True, null=True)
     img = models.TextField(blank=True, null=True)
@@ -140,6 +128,17 @@ class Table1(models.Model):
     class Meta:
         managed = False
         db_table = 'table1'
+
+
+class TestRainfall(models.Model):
+    id = models.AutoField(db_column='ID', primary_key=True)  # Field name made lowercase.
+    year = models.IntegerField(blank=True, null=True)
+    month = models.IntegerField(blank=True, null=True)
+    rainfall = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'test_rainfall'
 
 
 class TripsPost(models.Model):

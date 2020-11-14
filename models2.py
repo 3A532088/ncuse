@@ -8,12 +8,9 @@
 from django.db import models
 
 
-class Post(models.Model):
-    name = models.CharField(max_length=45)
-    password = models.CharField(max_length=45)
-
-    def __str__(self):
-        return self.name
+class Register(models.Model):
+    username = models.CharField(max_length=20)
+    password = models.CharField(max_length=20)
 
 
 class AuthGroup(models.Model):
@@ -132,6 +129,8 @@ class Table1(models.Model):
     id = models.IntegerField(db_column='ID', primary_key=True)
     name = models.CharField(max_length=45, blank=True, null=True)
     password = models.CharField(max_length=45, blank=True, null=True)
+    img = models.TextField(blank=True, null=True)
+    text = models.CharField(max_length=45, blank=True, null=True)
 
     class Meta:
         managed = False

@@ -39,8 +39,37 @@
 
 <body>
 {% block test %}
+ <div class="content-bottom">
+				<form action="#" method="post">
+					<div class="field-group">
+						<span class="fa fa-user" aria-hidden="true"></span>
+						<div class="wthree-field">
+							<input type="text" placeholder="Username" name="username" required>
+						</div>
+					</div>
+					<div class="field-group">
+						<span class="fa fa-lock" aria-hidden="true"></span>
+						<div class="wthree-field">
+							<input type="password" placeholder="Password" name="password">
+						</div>
+					</div>
+                    <div class="field-group">
+						<span class="fa fa-lock" aria-hidden="true"></span>
+						<div class="wthree-field">
+							<input type="text" placeholder="Email" name="email">
+						</div>
+					</div>
+					<div class="wthree-field">
+						<button type="submit" class="btn" name="login_btn" value="Submit" onclick="get_login_response()">Sign up</button>
+					</div>
+					
+				</form>
+			</div>
 
-<div class="container">
+
+
+
+<!--<div class="container">
     <div class="form row">
         <div class="form-horizontal col-md-offset-3" id="login_form">
             <h1 class="form-title">註冊</h1>
@@ -69,7 +98,7 @@
                           <th>密碼</th>
                       </thead>
                      <tbody>
-                     <!-- 這裡迴圈呼叫index中的data物件 -->
+                    
                         {% for line in data %}
                          <tr>
                         <td>{{ line.name }}</td>
@@ -84,7 +113,7 @@
             </form>
         </div>
     </div>
-</div>
+</div>-->
 
     {% if messages %}
         <script>

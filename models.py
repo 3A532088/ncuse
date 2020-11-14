@@ -119,7 +119,7 @@ class DjangoSession(models.Model):
 
 
 class Table1(models.Model):
-    id = models.IntegerField(db_column='ID', primary_key=True)  # Field name made lowercase.
+    id = models.AutoField(db_column='ID', primary_key=True)  # Field name made lowercase.
     name = models.CharField(max_length=45, blank=True, null=True)
     password = models.CharField(max_length=45, blank=True, null=True)
     img = models.TextField(blank=True, null=True)
@@ -128,6 +128,17 @@ class Table1(models.Model):
     class Meta:
         managed = False
         db_table = 'table1'
+
+
+class TestRainfall(models.Model):
+    id = models.AutoField(db_column='ID', primary_key=True)  # Field name made lowercase.
+    year = models.IntegerField(blank=True, null=True)
+    month = models.IntegerField(blank=True, null=True)
+    rainfall = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'test_rainfall'
 
 
 class TripsPost(models.Model):

@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 #from trips.views import hello_world, home, index, sign_up, sign_in, log_out
-from trips.views import hello_world, home, login, signup, mainweb, logout
+from trips.views import hello_world, home, login, signup, mainweb, logout, base
 from django.conf.urls import include, url
 from trips import views
 
@@ -27,6 +27,7 @@ urlpatterns = [
     path('signup/', signup, name='Signup'),
     path('mainweb/', mainweb, name='Mainweb'),
     path('logout/', logout, name='Logout'),
+    path('base/', base, name='base'),
     url(r'hello/$', hello_world),
 
 

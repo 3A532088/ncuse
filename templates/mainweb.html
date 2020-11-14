@@ -63,21 +63,25 @@
 <div style="width:300px;height:300px;border:3px #cccccc dashed;">
 <canvas id="myChart" width="100" height="100"></canvas>
 <script>
+
 var ctx = document.getElementById('myChart').getContext('2d');
 var myChart = new Chart.Line(ctx, {//Doughnut (環狀圖)Pie (圓餅圖)Line (折線圖)Bar (柱狀圖)Radar (雷達圖)PolarArea (極地圖)
     //type: 'bar',
     data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        //labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        labels: [ {% for data in data %}{{data.month}},{% endfor %}],
         datasets: [{
-            label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3],
+            label: '1998',
+            //data: [12, 19, 3, 5, 2, 3],
+            data: [{% for data in data %}{{data.rainfall}},{% endfor %}],
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
                 'rgba(255, 206, 86, 0.2)',
                 'rgba(75, 192, 192, 0.2)',
                 'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
+                'rgba(255, 159, 64, 0.2)',
+                'rgba(255, 159, 64, 0.2)',
             ],
             borderColor: [
                 'rgba(255, 99, 132, 1)',
@@ -85,14 +89,29 @@ var myChart = new Chart.Line(ctx, {//Doughnut (環狀圖)Pie (圓餅圖)Line (�
                 'rgba(255, 206, 86, 1)',
                 'rgba(75, 192, 192, 1)',
                 'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
+                'rgba(255, 159, 64, 1)',
+                'rgba(255, 159, 64, 1)' 
             ],
             borderWidth: 1
         }]
     },
     options: {
         scales: {
+           
             yAxes: [{
+              scaleLabel: {
+              display: true,
+              labelString: '雨量'
+            },
+                ticks: {
+                    beginAtZero: true
+                }
+            }],
+            xAxes: [{
+              scaleLabel: {
+              display: true,
+              labelString: '月份'
+            },
                 ticks: {
                     beginAtZero: true
                 }

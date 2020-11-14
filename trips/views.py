@@ -4,7 +4,6 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from datetime import datetime
 from django.shortcuts import render
-from trips.models import Table1
 from django.contrib import auth
 from django.http import HttpResponseRedirect
 from django.contrib.auth.forms import UserCreationForm
@@ -14,6 +13,8 @@ from .forms import RegisterForm, LoginForm
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import cache_page
 from django.contrib import messages
+from trips.models import Table1
+from trips.models import TestRainfall
 
 
 def hello_world(request):
@@ -25,6 +26,12 @@ def hello_world(request):
         'current_time': str(datetime.now()),
         'aa': '1312223',
         'name': name,
+    })
+
+
+def base(request):
+    return render(request, 'base.html', {
+
     })
 
 
@@ -45,8 +52,9 @@ def logout(request):
 def mainweb(request):
     if request.session['is_login'] == True:
         username = request.session['username']
+        data = TestRainfall.objects.all()
 
-        return render(request, "mainweb.html", {'username': username})
+        return render(request, "mainweb.html", {'username': username, 'data': data, })
     else:
         messages.success(request, '請先登入')
         return redirect("/login",)

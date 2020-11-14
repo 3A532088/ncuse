@@ -42,9 +42,9 @@
 </head>
 {% extends "base.html" %}
 <body>
+
 {% block test %}
-<div class="container">
-    <div class="form row">
+    <!--<div class="form row">
         <div class="form-horizontal col-md-offset-3" id="login_form">
             <h1 class="form-title">Login</h1>
             <form action="" method="post">{% csrf_token %}
@@ -68,8 +68,55 @@
             </div>
             </form>
         </div>
-    </div>
-</div>
+    </div>-->
+    <div class="content-bottom">
+    <div class="content-w3ls">
+			<div class="text-center icon">
+				<span class="fa fa-html5"></span>
+				<form action="#" method="post">
+					<div class="field-group">
+						<span class="fa fa-user" aria-hidden="true"></span>
+						<div class="wthree-field">
+							<input type="text" placeholder="Username" name="username" required>
+						</div>
+					</div>
+					<div class="field-group">
+						<span class="fa fa-lock" aria-hidden="true"></span>
+						<div class="wthree-field">
+							<input type="password" placeholder="Password" name="password">
+						</div>
+					</div>
+					<div class="wthree-field">
+						<button type="submit" class="btn" name="login_btn" value="Submit" onclick="get_login_response()">Get Started</button>
+					</div>
+					<ul class="list-login">
+						<li class="switch-agileits">
+							<label class="switch">
+								<input type="checkbox">
+								<span class="slider round"></span>
+								keep Logged in
+							</label>
+						</li>
+						<li>
+							<a href="#" class="text-right">forgot password?</a>
+						</li>
+						<li class="clearfix"></li>
+					</ul>
+					<ul class="list-login-bottom">
+						<li class="">
+							<a href="#" class="">Create Account</a>
+						</li>
+						<li class="">
+							<a href="#" class="text-right">Need Help?</a>
+						</li>
+						<li class="clearfix"></li>
+					</ul>
+				</form>
+			</div>
+            </div>
+
+		</div>
+
 
     {% if messages %}
         <script>
@@ -78,6 +125,7 @@
             {% endfor %}
         </script>
     {% endif %}
+
 {% endblock %}
 </body>
 </html>
