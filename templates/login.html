@@ -73,15 +73,15 @@
     <div class="content-w3ls">
 			<div class="text-center icon">
 				<span class="fa fa-html5"></span>
-				<form action="#" method="post">
+				<form action="#" method="post">{% csrf_token %}
 					<div class="field-group">
-						<span class="fa fa-user" aria-hidden="true"></span>
+						<span class="fa fa-user" aria-hidden="true" style="font-size:54px"></span>
 						<div class="wthree-field">
-							<input type="text" placeholder="Username" name="username" required>
+							<input type="text" placeholder="Username" name="username" required autocomplete="off">
 						</div>
 					</div>
 					<div class="field-group">
-						<span class="fa fa-lock" aria-hidden="true"></span>
+						<span class="fa fa-lock" aria-hidden="true" style="font-size:56px"></span>
 						<div class="wthree-field">
 							<input type="password" placeholder="Password" name="password">
 						</div>

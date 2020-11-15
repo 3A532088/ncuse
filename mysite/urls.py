@@ -28,6 +28,7 @@ urlpatterns = [
     path('mainweb/', mainweb, name='Mainweb'),
     path('logout/', logout, name='Logout'),
     path('base/', base, name='base'),
+    path('home/', home, name='Home'),
     url(r'hello/$', hello_world),
 
 

@@ -40,31 +40,35 @@
 <body>
 {% block test %}
  <div class="content-bottom">
-				<form action="#" method="post">
+ <div class="content-w3ls">
+ <div class="text-center icon">
+				<form action="#" method="post">{% csrf_token %}
 					<div class="field-group">
-						<span class="fa fa-user" aria-hidden="true"></span>
+						<span class="fa fa-user" style="font-size:54px" aria-hidden="true" ></span>
 						<div class="wthree-field">
-							<input type="text" placeholder="Username" name="username" required>
+							<input type="text" placeholder="Username" name="username" required autocomplete="off"><!-- autocomplete="off" 取消自動帶出的輸入記錄-->
 						</div>
 					</div>
 					<div class="field-group">
-						<span class="fa fa-lock" aria-hidden="true"></span>
+						<span class="fa fa-lock" style="font-size:56px" aria-hidden="true"></span>
 						<div class="wthree-field">
 							<input type="password" placeholder="Password" name="password">
 						</div>
 					</div>
                     <div class="field-group">
-						<span class="fa fa-lock" aria-hidden="true"></span>
+						<span class="fa fa-envelope"  style="font-size:38px" aria-hidden="true"></span>
 						<div class="wthree-field">
-							<input type="text" placeholder="Email" name="email">
+							<input type="text" placeholder="Email" name="Email" autocomplete="off" >
 						</div>
 					</div>
 					<div class="wthree-field">
-						<button type="submit" class="btn" name="login_btn" value="Submit" onclick="get_login_response()">Sign up</button>
+						<button type="submit" class="btn" name="login_btn" value="Submit" onclick="get_insert_response()">Sign up</button>
 					</div>
 					
 				</form>
+                </div>
 			</div>
+            </div>
 
 
 
