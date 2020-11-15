@@ -36,9 +36,14 @@ def base(request):
 
 
 def home(request):
-    return render(request, 'home.html', {
+    if request.session['is_login'] == True:
+        username = request.session['username']
+        data = TestRainfall.objects.all()
 
-    })
+        return render(request, "home.html", {'username': username, 'data': data, })
+    else:
+        messages.success(request, '請先登入')
+        return redirect("/login",)
 
 
 def logout(request):
@@ -68,7 +73,9 @@ def signup(request):
         password = request.POST.get("password", None)
         if Table1.objects.filter(name=username):
             # 這裡通過httpresponse返回給前端資訊，前端index.html通過get_insert_response()來提示註冊失敗資訊alert("")
-            return render(request, "signup.html", {'messages': '帳號已註冊'})
+            # return render(request, "signup.html", {'messages': '帳號已註冊'})
+            messages.success(request, '帳號已註冊')
+            return redirect("/signup",)
         else:
             # 接收資料儲存到資料庫,creatr_user用hash值儲存
             Table1.objects.create(name=username, password=password)
@@ -95,7 +102,7 @@ def login(request):
                 request.session['username'] = username
                 #messages.success(request, "登入成功")
                 messages.success(request, '登入成功')
-                return redirect("/mainweb",)
+                return redirect("/home",)
                 # return render(request, "mainweb.html", {'messages': '登入成功'})
             else:
                 messages.success(request, '帳號密碼錯誤')
