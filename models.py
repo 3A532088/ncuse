@@ -118,6 +118,27 @@ class DjangoSession(models.Model):
         db_table = 'django_session'
 
 
+class Manager(models.Model):
+    id = models.AutoField(db_column='ID', primary_key=True)  # Field name made lowercase.
+    name = models.CharField(max_length=45, blank=True, null=True)
+    password = models.CharField(max_length=45, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'manager'
+
+
+class Post(models.Model):
+    id = models.AutoField(db_column='ID', primary_key=True)  # Field name made lowercase.
+    post = models.CharField(max_length=45, blank=True, null=True)
+    rainfall = models.ForeignKey('TestRainfall', models.DO_NOTHING, db_column='rainfall_ID', blank=True, null=True)  # Field name made lowercase.
+    table1 = models.ForeignKey('Table1', models.DO_NOTHING, db_column='table1_ID', blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'post'
+
+
 class Table1(models.Model):
     id = models.AutoField(db_column='ID', primary_key=True)  # Field name made lowercase.
     name = models.CharField(max_length=45, blank=True, null=True)
@@ -135,6 +156,7 @@ class TestRainfall(models.Model):
     year = models.IntegerField(blank=True, null=True)
     month = models.IntegerField(blank=True, null=True)
     rainfall = models.IntegerField(blank=True, null=True)
+    country = models.CharField(max_length=20, blank=True, null=True)
 
     class Meta:
         managed = False

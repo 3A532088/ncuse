@@ -89,7 +89,6 @@ audio,
 video {
     margin: 0;
     padding: 0;
-    border: 0;
     font-size: 100%;
     font: inherit;
     vertical-align: baseline;
@@ -247,6 +246,18 @@ body {
 	position: relative;
     min-height: 100vh;
 }
+.main2 {
+    background: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)),url(../images/bg2.jpg) no-repeat center;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    -ms-background-size: cover;
+	position: relative;
+    min-height: 100vh;
+}
+
+
 .layer {
     padding: 2em 0;
 }
@@ -255,10 +266,27 @@ body {
 }
 
 /*/////////////// FONT STYLES ////////////////////*/
+.main-content{
+	color:white;
+	padding: 10px 150px;
+	height:500px;
+}
+.content-left{
+	float:left;
+}
+.content-right{
+	float:left;
+	padding-left: 20px;
+	
+}
 
 .content-w3ls {
     max-width: 500px;
     margin: 6em auto;
+}
+.content-w3ls2 {
+    max-width: 1000px;
+    margin: 3em auto;
 }
 ul.links-unordered-list li.active a {
     background: rgba(255, 255, 255, 0.05);

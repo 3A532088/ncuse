@@ -1,0 +1,29 @@
+{% extends "manbase.html" %}
+{% block test2 %}
+
+            
+<div class="content-w3ls2">
+
+    <form action="modify" method="post">{% csrf_token %}
+    <div>使用者:{{username}}</div>
+    <input type="hidden" name="username" value="{{username}}">
+    修改密碼:<input type="text" name="password" >
+    <div>
+    <button type="submit" class="btn" name="login_btn" value="Submit">確認</button>
+    </div>
+
+    </form>
+
+
+</div>
+
+
+
+    {% if messages %}
+        <script>
+            {% for msg in messages %}
+                alert('{{ msg.message }}');
+            {% endfor %}
+        </script>
+    {% endif %}
+{% endblock %}

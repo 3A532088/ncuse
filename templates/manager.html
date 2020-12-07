@@ -1,0 +1,57 @@
+{% extends "manbase.html" %}
+{% block test2 %}
+
+ 
+<div class="content-w3ls2">
+
+    <table width="500" border="1">
+　  <tr>
+　      <td>name</td>
+　      <td>password</td>
+        <td>動作</td>
+　  </tr>
+    {% for data in data %}
+　  <tr>
+　      <td>{{data.name}}</td>
+　      <td>{{data.password}}</td>
+    
+    <td>
+        <form action="" name="myFrm" method="post">{% csrf_token %}
+        <input type="button" value="edit" onclick="edit({{data.id}})"/>
+        <input type="hidden" value="{{data.name}}" name="username" >
+        <!--<input type="button" value="delete" onclick="delete()"/>-->
+        </form>
+    </td>			
+				
+　  </tr>
+    {% endfor %}
+    	
+</table>
+
+</div>        
+<!--<form action="" name="pay" method="post">{% csrf_token %}
+    
+    <input type="button" value="edit" onclick="edit()"/>
+    <input type="button" value="delete" onclick="delete()"/>
+						
+</form>-->
+
+
+<script>
+function edit(num){
+    
+    document.myFrm[num-1].action="/manager/edit"; 
+    document.myFrm[num-1].submit(); 
+}
+</script>
+
+
+{% if messages %}
+    <script>
+        {% for msg in messages %}
+            alert('{{ msg.message }}');
+        {% endfor %}
+    </script>
+{% endif %}
+{% endblock %}
+

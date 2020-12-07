@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'django_extensions',
     'django.contrib.staticfiles',
     'trips',
 ]
@@ -139,4 +140,9 @@ CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',  # 這裡使用的是在本地記憶體來進行快取
     }
+}
+
+GRAPH_MODELS = {
+    'all_applications': True,
+    'group_models': True,
 }

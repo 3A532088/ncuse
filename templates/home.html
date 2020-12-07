@@ -1,5 +1,200 @@
 {% extends "base.html" %}
 {% block test %}
+<form action="" method="post" enctype="multipart/form-data" name="commit">{% csrf_token %}
+<div class="main-content">
+    
+    <div class="content-left">
+            <div class="player_block">
+              <!--<form action="/search/" method="post">{% csrf_token %}-->
+                <div class="row">
+                  <div class="col-md-12">
+                    <div>選擇國家</div>
+                    <label class="select" for="spacing">
+                         <select name="country" id="country-list" onchange="changeCollege(this.selectedIndex)" >
+                            <!--{% if country%}
+                            <option value="{{country}}">{{country}}</option>
+                            {% else %}
+                            <option value="">請選擇國家</option>
+                            {% endif %}
+                            <option value="台灣">台灣</option>
+                            <option value="日本">日本</option>
+                            <option value="韓國">韓國</option>-->
+                         </select>
+                         <i aria-hidden="true"></i> 
+                    </label>
+                  </div>
+                  <div class="col-md-12">
+                      <div class="col-md-12">
+                      <div>選擇年月</div>
+                        <label class="select">
+                            <select name="year" id="year-list">
+                              <!--{% if year%}
+                            <option value="{{year}}">{{year}}</option>
+                            {% else %}
+                            <option value="">請選擇年</option>
+                            {% endif %}
+                            <option value="1998">1998</option>
+                            <option value="1999">1999</option>
+                            <option value="2000">2000</option>-->
+                            </select>
+                            <i aria-hidden="true"></i>
+                        </label>
+                        <label class="select">
+                            <select name="month"  id="month-list">
+                             <!--{% if month%}
+                            <option value="{{month}}">{{month}}</option>
+                            {% else %}
+                            <option value="">請選擇月</option>
+                            {% endif %}
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>-->
+                            </select>
+                            <i aria-hidden="true"></i>
+                        </label>
+                      </div>
+                      
+                    </div>
+                  </div>
+                
+                <button onclick="search()">送出</button>
+             <!--</form>--> 
+             {% if country%}
+            <div>country:{{country}}</div>
+            {% endif %}
+            {% if year%}
+            <div>year:{{year}}</div>
+            <div>month:{{month}}</div>
+            {% endif %}
+        </div>
+        
+
+</div>
+
+
+<div class="content-right">圖</div>
+
+<!--
+    userid:{{userid}}
+    rainfallid:{{data}}
+    {% for rainfallcountry in rainfallcountry %}
+        {{rainfallcountry.country}},
+    {% endfor %}
+    {% for alldata in alldata %}
+        {%ifequal alldata.country '日本'%}
+        {{alldata.year}},
+        {% endifequal%}
+    {% endfor %}
+
+    {{list_time}},
+  -->  
+</div>
+
+
+<!--
+<div style="padding-left:150px;">
+    <form action="/post/" method="post">{% csrf_token %}
+
+    <textarea name="comment"rows="8"cols="150"required></textarea>
+    <button type="submit" class="btn" value="Submit" >送出</button>
+    </form>
+</div>
+-->
+
+<div style="padding-left:150px;">
+{% for post in post %}
+    <div style="color:white">{{post.table1.name}}:{{post.post}}</div>
+        
+    {% endfor %}
+    <textarea name="comment"rows="8"cols="150"required></textarea>
+    <button onclick="post()">送出</button>
+</div>
+</form>
+		<script type="text/javascript">
+			//var colleges=[{% for rainfallcountry in rainfallcountry %}"{{rainfallcountry.country}}",{% endfor %}];
+            var colleges=['台灣','日本','韓國'];
+			var collegeSelect=document.getElementById("country-list");
+            
+            var handyear=new Array();
+
+            
+            /*var tempyear=[{% for alldata in alldata %}{% ifequal alldata.country '日本' %} {{alldata.year}},{% endifequal%}{% endfor %}];
+            handyear[0]=tempyear[0];
+            var temp=0;
+            for(var i=0;i<tempyear.length-1;i++){
+                if(tempyear[i]!=tempyear[i+1]){
+                    temp++;
+                    handyear[temp]=tempyear[i+1];
+                    
+                }
+            }*/
+
+
+
+			var inner="";
+			for(var i=0;i<colleges.length;i++){
+				inner=inner+'<option value='+colleges[i]+'>'+colleges[i]+'</option>';
+                handyear[i]=new Array();
+
+			}
+			collegeSelect.innerHTML=inner;
+			
+			
+			var year=new Array();
+            var month=new Array();
+            /*for(var i=0;i<colleges.length;i++){
+				year[i]=[{% for rainfallcountry in rainfallcountry %}"{{rainfallcountry.country}}",{% endfor %}];
+			}*/
+            year[0]=[1998,1999,2000];
+            year[1]=[1999,2000];
+            month[0]=[1,2,3,4,5,6,7,8,9,10,11,12];
+            month[1]=[1,2,3,4,5,6,7,8,9,10];
+			/*year[0]=[1998,1999];
+			year[1]=[1999];	
+			sectors[2]=['土木工程學系 ',' 水利工程與資源保育學系 ',' 都市計畫與空間資訊學系 ',' 運輸與物流學系 ',' 土地管理學系 ','景觀與遊憩碩士學位學程 ',' 專案管理碩士在職學位學程 ',' 建設碩士在職學位學程 ','土木水利工程與建設規劃博士學位學程 '];	
+			sectors[3]=['風險管理與保險學系 ',' 財務金融學系 ',' 財務工程與精算學士學位學程 ','金融碩士在職學位學程 ','金融博士學位學程 '];
+			sectors[4]=['建築專業學院學士班 ',' 建築學士學位學程 ',' 室內設計學士學位學程 ',' 室內設計進修學士班 ',' 創新設計學士學位學程 ',' 建築碩士學位學程 ',' 建築碩士在職學位學程','澳洲墨爾本皇家理工大學商學與創新雙學士學位學程 ','美國聖荷西州立大學商學大數據分析雙學士學位學程 ']
+			sectors[5]=['美國普渡大學電機資訊雙學士學位學程 ','西班牙薩拉戈薩大學物流供應鏈管理與創新創業雙碩士學位學程 ','國際經營管理碩士學位學程 '];
+			sectors[6]=['資訊工程學系 ',' 電機工程學系 ',' 電子工程學系 ',' 自動控制工程學系 ',' 通訊工程學系',' 資電不分系榮譽班 ','資訊電機工程碩士在職學位學程 ',' 產業研發碩士專班 ',' 生醫資訊暨生醫工程碩士學位學程 ',' 視光科技碩士在職學位學程 ','電機與通訊工程博士學位學程 ',' 智慧聯網產業博士學位學程'];
+			sectors[7]=['中國文學系 ',' 外國語文學系 ','歷史與文物研究所 ',' 公共事務與社會創新研究所 '];
+			sectors[8]=['應用數學系 ',' 環境工程與科學學系 ',' 材料科學與工程學系 ',' 光電學系 ','微積分教學中心 ',' 物理教學研究中心 '];
+			sectors[9]=['經營管理碩士在職學位學程 ',' 電子商務碩士在職專班 '];
+			sectors[10]=[];
+			sectors[11]=['通識教育中心 ',' 雲端學院 ','外語教學中心 ',' 國語文教學中心 ','全校國際生大一不分系學士班 '];*/
+
+            
+            function changeCollege(index){
+				var Sinner="";
+                var mon="";
+				for(var i=0;i<year[index].length;i++){
+					Sinner=Sinner+'<option value='+year[index][i]+'>'+year[index][i]+'</option>';
+				}
+				var sectorSelect=document.getElementById("year-list");
+				sectorSelect.innerHTML=Sinner;
+
+                for(var i=0;i<month[index].length;i++){
+					mon=mon+'<option value='+month[index][i]+'>'+month[index][i]+'</option>';
+				}
+				var monSelect=document.getElementById("month-list");
+				monSelect.innerHTML=mon;
+			}
+			changeCollege(document.getElementById("country-list").selectedIndex);
+
+
+            function search(){ 
+            //document.("表单的name值").action
+            //document.("表单的name值").submit
+ 
+            document.commit.action="/search/"; 
+            document.commit.submit(); 
+            } 
+ 
+            function post() { 
+            document.commit.action = "/post/"; 
+            document.commit.submit(); 
+            }
+
+		</script>
 
     {% if messages %}
         <script>

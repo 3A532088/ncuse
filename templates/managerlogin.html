@@ -36,14 +36,19 @@
 
         }
   </script>
-    <style>
 
-    </style>
 </head>
-{% extends "base.html" %}
+    
+{% extends "manbase.html" %}
+<style>
+        .main{
+            background: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)),url(../images/bg2.jpg) no-repeat center;
+        }
+    </style>
 <body>
 
-{% block test %}
+
+{% block test2 %}
     <!--<div class="form row">
         <div class="form-horizontal col-md-offset-3" id="login_form">
             <h1 class="form-title">Login</h1>
@@ -73,7 +78,7 @@
     <div class="content-w3ls">
 			<div class="text-center icon">
 				<span class="fa fa-tint"></span>
-				<form action="" method="post">{% csrf_token %}
+				<form action="#" method="post">{% csrf_token %}
 					<div class="field-group">
 						<span class="fa fa-user" aria-hidden="true" style="font-size:54px"></span>
 						<div class="wthree-field">
@@ -102,21 +107,11 @@
 						</li>
 						<li class="clearfix"></li>
 					</ul>
-					<ul class="list-login-bottom">
-						<li class="">
-							<a href="#" class="">Create Account</a>
-						</li>
-						<li class="">
-							<a href="#" class="text-right">Need Help?</a>
-						</li>
-						<li class="clearfix"></li>
-					</ul>
 				</form>
 			</div>
             </div>
 
 		</div>
-
 
     {% if messages %}
         <script>

@@ -40,12 +40,12 @@
 
 <body>
 
-<section class="main" >
+<section class="main2" >
 	<div class="layer">
 		<!--background: url(../images/bg2.jpg) no-repeat center;-->
 		<div class="bottom-grid">
 			<div class="logo">
-				<h1> <a href="{% url 'Home' %}"><span class="fa fa-tint"></span> 首頁</a></h1>
+				<h1> <a href={% url 'Manager' %}><span class="fa fa-tint"></span>後臺管理</a></h1>
 			</div>
 			<div class="links">
 				<ul class="links-unordered-list">
@@ -55,21 +55,21 @@
 						<a href="{% url 'Mainweb' %}">{{request.session.username }}</a>
 					</li>
                     <li class="">
-						<a href="{% url 'Logout' %}">Logout</a>
+						<a href="{% url 'Managerlogout' %}">Logout</a>
 					</li>
                     {% else %}
-                    <li class="">
+                    <!--<li class="">
 						<a href="{% url 'Login' %}">Login</a>
 					</li>
 					<li class="">
 						<a href="{% url 'Signup' %}">Signup</a>
-					</li>					
+					</li>		-->			
                     {% endif %}
 				</ul>
 			</div>
 		</div>
-	</div>	
-                {% block test %}
+		
+                {% block test2 %}
                 {% endblock %}
 			
 		
