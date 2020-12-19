@@ -1,0 +1,59 @@
+{% extends "manbase.html" %}
+{% block test2 %}
+
+ 
+<div class="content-w3ls2">
+    <span > <a href="{% url 'ManagerPassword' %}">修改密碼</a></span> <span><a href="{% url 'ManagerPost' %}">管理留言</a></span> <span>???</span> 
+
+    <table width="500" border="1">
+　  <tr>
+　      <td>name</td>
+　      <td>password</td>
+        <td>動作</td>
+　  </tr>
+
+    {% for post in post %}
+　  <tr>
+　      <td>{{post.table1.name}}</td>
+　      <td>{{post.post}}</td>
+    <td>
+        <form action="" name="delForm" method="post">{% csrf_token %}
+        <!--post.id改get post表size -->
+        <input type="button" value="delete" onclick="delete2({{forloop.counter}})"/>
+        <input type="hidden" value="{{post.id}}" name="postid" >
+        <!--<input type="button" value="delete" onclick="delete()"/>-->
+        </form>
+    </td>			
+				
+　  </tr>
+    {% endfor %}
+    	
+</table>
+
+</div>        
+<!--<form action="" name="pay" method="post">{% csrf_token %}
+    
+    <input type="button" value="edit" onclick="edit()"/>
+    <input type="button" value="delete" onclick="delete()"/>
+						
+</form>-->
+
+
+<script>
+function delete2(num){
+    
+    document.delForm[num-1].action="/manager/delete"; 
+    document.delForm[num-1].submit(); 
+}
+</script>
+
+
+{% if messages %}
+    <script>
+        {% for msg in messages %}
+            alert('{{ msg.message }}');
+        {% endfor %}
+    </script>
+{% endif %}
+{% endblock %}
+

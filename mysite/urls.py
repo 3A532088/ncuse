@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 #from trips.views import hello_world, home, index, sign_up, sign_in, log_out
-from trips.views import hello_world, home, login, signup, mainweb, logout, base, manager, managerlogin, manageredit, modify, managerlogout, result, post, search
+from trips.views import hello_world, home, login, signup, mainweb, logout, base, manager, managerlogin, managerpsedit, modify, delete, managerpost, managerlogout, result, post, search
 from django.conf.urls import include, url
 from trips import views
 
@@ -34,10 +34,14 @@ urlpatterns = [
     path('result/', result, name='Result'),
     path('manager/login', managerlogin, name='Managerlogin'),
     path('manager/logout', managerlogout, name='Managerlogout'),
-    path('manager/', manager, name='Manager'),
-    path('manager/edit', manageredit, name='Edit'),
+    path('manager/password', manager, name='ManagerPassword'),
+    path('manager/post', managerpost, name='ManagerPost'),
+    path('manager/delete', delete, name='Delete'),
+
+    path('manager/edit', managerpsedit, name='Edit'),
     path('manager/modify', modify),
-    url(r'hello/$', hello_world),
+    url(r'hello/$', hello_world, name="Hello"),
+    #url(r'hello/$', hello_world),
 
 
 ]

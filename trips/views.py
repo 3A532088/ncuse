@@ -18,18 +18,15 @@ from trips.models import TestRainfall
 from trips.models import Manager
 from trips.models import Post
 from django.db.models import Count
+from django.urls import reverse
 
 
 def hello_world(request):
     name = Table1.objects.all()
 
     # User = Table1()
-
-    return render(request, 'hello.html', {
-        'current_time': str(datetime.now()),
-        'aa': '1312223',
-        'name': name,
-    })
+    # return HttpResponse('你輸入的參數是pk: {}'.format(pk))
+    return render(request, 'hello.html', {'current_time': str(datetime.now())[0:19], 'aa': '1312223', 'name': name, })
 
 
 def base(request):
@@ -64,28 +61,60 @@ def home(request):
             country = request.POST.get("country", None)
             year = request.POST.get("year", None)
             month = request.POST.get("month", None)
-            return render(request, "home.html", {'username': username, 'data': data, 'country': country, 'rainfallcountry': rainfallcountry, 'rainfallyear': rainfallyear, 'userid': userid, 'year': year, 'month': month, 'alldata': alldata, 'list_time': list_time})
-        return render(request, "home.html", {'username': username, 'data': data, 'rainfallcountry': rainfallcountry, 'rainfallyear': rainfallyear, 'alldata': alldata, 'list_time': list_time})
+            return render(request, "home.html", {'username': username, })
+        return render(request, "home.html", {'username': username, })
     else:
         messages.success(request, '請先登入')
         return redirect("/login",)
 
 
 def search(request):
-    if request.method == "POST":
+    if request.method == "GET":
+        '''
         country = request.POST.get("country", None)
         year = request.POST.get("year", None)
         month = request.POST.get("month", None)
+        toyear = request.POST.get("toyear", None)
+        tomonth = request.POST.get("tomonth", None)
+        '''
+        country = request.GET.get("country", None)
+        year = request.GET.get("year", None)
+        month = request.GET.get("month", None)
+        toyear = request.GET.get("toyear", None)
+        tomonth = request.GET.get("tomonth", None)
 
         username = request.session['username']
         userid = Table1.objects.get(name=username)
         getdata = TestRainfall.objects.filter(
             year=year, month=month, country=country)
+
         rainfallid = getdata[0].id
-        getpost = Post.objects.filter(rainfall=rainfallid)
+
+        getrainfallid = TestRainfall.objects.filter(
+            year=year, month=month, country=country)
+        rainfallid = getrainfallid[0].id
+
+        togetrainfallid = TestRainfall.objects.filter(
+            year=toyear, month=tomonth, country=country)
+        torainfallid = togetrainfallid[0].id
+
+        getrainfall = TestRainfall.objects.filter(
+            id__range=[rainfallid, torainfallid], country=country)
+
+        if year == toyear and month == tomonth:
+            getpost = Post.objects.filter(rainfall=rainfallid)
+            ifpost = 1
+            getcountrytrainfall = TestRainfall.objects.filter(
+                year=year, month=month)
+            return render(request, 'home.html', {'rainfall': getcountrytrainfall, 'post': getpost, 'ifpost': ifpost, 'country': country, 'year': year, 'month': month, 'toyear': toyear, 'tomonth': tomonth, })
 
     return render(request, 'home.html', {
-        'post': getpost
+        'rainfall': getrainfall,
+        'country': country,
+        'year': year,
+        'month': month,
+        'toyear': toyear,
+        'tomonth': tomonth,
     })
 
 
@@ -94,30 +123,39 @@ def post(request):
         country = request.POST.get("country", None)
         year = request.POST.get("year", None)
         month = request.POST.get("month", None)
-        getpost = request.POST.get("comment", None)
+        toyear = request.POST.get("toyear", None)
+        tomonth = request.POST.get("tomonth", None)
+        comment = request.POST.get("comment", None)
         username = request.session['username']
         userid = Table1.objects.get(name=username)
         getdata = TestRainfall.objects.filter(
             year=year, month=month, country=country)
         rainfallid = getdata[0].id
         dataid = TestRainfall.objects.get(id=rainfallid)
-        Post.objects.create(post=getpost, table1=userid,  rainfall=dataid)
+        time = str(datetime.now())[0:19]
+        Post.objects.create(post=comment, table1=userid,
+                            rainfall=dataid, time=time)
+        getpost = Post.objects.filter(rainfall=rainfallid)
+        ifpost = 1
 
-        return redirect("/home",)
+        getcountrytrainfall = TestRainfall.objects.filter(
+            year=year, month=month)
+
+        return render(request, 'home.html', {
+            'post': getpost,
+            'country': country,
+            'year': year,
+            'month': month,
+            'ifpost': ifpost,
+            'rainfall': getcountrytrainfall,
+
+        })
 
 
 def result(request):
     return render(request, 'base.html', {
 
     })
-
-
-def logout(request):
-    request.session['is_login'] = False
-    # messages.success(request, "登出")
-    messages.success(request, '登出成功')
-    return redirect("/login",)
-    # return render(request, "login.html", {'messages': '成功登出'})
 
 
 def mainweb(request):
@@ -130,8 +168,10 @@ def mainweb(request):
         messages.success(request, '請先登入')
         return redirect("/login",)
 
-
+# -------------------------------------------------------------------------------------------------------------------------
 # @cache_page(60 * 15)  # 60秒數，這裡指快取 15 分鐘，不直接寫900是為了提高可讀性
+
+
 def signup(request):
     # return  HttpResponse("hello world!")
     if request.method == "POST":
@@ -178,6 +218,15 @@ def login(request):
     return render(request, "login.html",)
 
 
+def logout(request):
+    request.session['is_login'] = False
+    # messages.success(request, "登出")
+    messages.success(request, '登出成功')
+    return redirect("/login",)
+    # return render(request, "login.html", {'messages': '成功登出'})
+# ------------------------------------------------------------------------------------------------------------------------
+
+
 def managerlogin(request):
     if request.method == "POST":
         username = request.POST.get("username", None)
@@ -190,7 +239,7 @@ def managerlogin(request):
                 request.session['username'] = username
                 # messages.success(request, "登入成功")
                 messages.success(request, '登入成功')
-                return redirect("/manager",)
+                return redirect("/manager/password",)
                 # return render(request, "mainweb.html", {'messages': '登入成功'})
             else:
                 messages.success(request, '帳號密碼錯誤')
@@ -205,10 +254,31 @@ def manager(request):
         username = request.session['username']
         data = Table1.objects.all()
 
-        return render(request, "manager.html", {'username': username, 'data': data, })
+        return render(request, "managerpassword.html", {'username': username, 'data': data, })
     else:
         messages.success(request, '請先登入')
         return redirect("/manager/login",)
+
+
+def managerpost(request):
+    if request.session['is_login'] == True:
+        username = request.session['username']
+        getpost = Post.objects.all()
+
+        return render(request, "managerpost.html", {'username': username, 'post': getpost, })
+    else:
+        messages.success(request, '請先登入')
+        return redirect("/manager/login",)
+
+
+def delete(request):
+    if request.method == "POST":
+        username = request.POST.get("username", None)
+        postid = request.POST.get("postid", None)
+        post = Post.objects.get(id=postid)
+        post.delete()
+    # return redirect("/manager/post",)
+    return redirect("/manager/post",)
 
 
 def managerlogout(request):
@@ -218,7 +288,7 @@ def managerlogout(request):
     return redirect("/manager/login",)
 
 
-def manageredit(request):
+def managerpsedit(request):
     if request.method == "POST":
         username = request.POST.get("username", None)
     return render(request, 'manageredit.html', {
@@ -233,7 +303,7 @@ def modify(request):
         user = Table1.objects.get(name=username)
         user.password = password
         user.save()
-    return redirect("/manager",)
+    return redirect("/manager/password",)
 
 
 '''

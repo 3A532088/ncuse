@@ -133,6 +133,7 @@ class Post(models.Model):
     post = models.CharField(max_length=45, blank=True, null=True)
     rainfall = models.ForeignKey('TestRainfall', models.DO_NOTHING, db_column='rainfall_ID', blank=True, null=True)  # Field name made lowercase.
     table1 = models.ForeignKey('Table1', models.DO_NOTHING, db_column='table1_ID', blank=True, null=True)  # Field name made lowercase.
+    time = models.CharField(max_length=20, blank=True, null=True)
 
     class Meta:
         managed = False

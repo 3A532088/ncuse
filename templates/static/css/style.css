@@ -273,6 +273,7 @@ body {
 }
 .content-left{
 	float:left;
+	height:500px;
 }
 .content-right{
 	float:left;
@@ -287,6 +288,7 @@ body {
 .content-w3ls2 {
     max-width: 1000px;
     margin: 3em auto;
+	color:white;
 }
 ul.links-unordered-list li.active a {
     background: rgba(255, 255, 255, 0.05);
@@ -298,7 +300,7 @@ ul.links-unordered-list li.active a {
     color: #eee;
 }
 .icon{
-	margin-bottom:3em;
+	margin-bottom:3em;500px
 }
 .content-bottom {
     padding: 0em 4em;

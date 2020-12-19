@@ -1,24 +1,17 @@
 {% extends "base.html" %}
 {% block test %}
-<form action="" method="post" enctype="multipart/form-data" name="commit">{% csrf_token %}
+<form action="" method="" enctype="multipart/form-data" name="commit">{% csrf_token %}
 <div class="main-content">
     
     <div class="content-left">
             <div class="player_block">
               <!--<form action="/search/" method="post">{% csrf_token %}-->
-                <div class="row">
+                    <div class="row">
                   <div class="col-md-12">
+                  
                     <div>選擇國家</div>
                     <label class="select" for="spacing">
                          <select name="country" id="country-list" onchange="changeCollege(this.selectedIndex)" >
-                            <!--{% if country%}
-                            <option value="{{country}}">{{country}}</option>
-                            {% else %}
-                            <option value="">請選擇國家</option>
-                            {% endif %}
-                            <option value="台灣">台灣</option>
-                            <option value="日本">日本</option>
-                            <option value="韓國">韓國</option>-->
                          </select>
                          <i aria-hidden="true"></i> 
                     </label>
@@ -28,27 +21,34 @@
                       <div>選擇年月</div>
                         <label class="select">
                             <select name="year" id="year-list">
-                              <!--{% if year%}
-                            <option value="{{year}}">{{year}}</option>
-                            {% else %}
-                            <option value="">請選擇年</option>
-                            {% endif %}
-                            <option value="1998">1998</option>
-                            <option value="1999">1999</option>
-                            <option value="2000">2000</option>-->
+
                             </select>
                             <i aria-hidden="true"></i>
                         </label>
                         <label class="select">
                             <select name="month"  id="month-list">
-                             <!--{% if month%}
-                            <option value="{{month}}">{{month}}</option>
-                            {% else %}
-                            <option value="">請選擇月</option>
-                            {% endif %}
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>-->
+                            </select>
+                            <i aria-hidden="true"></i>
+                        </label>
+                      </div>
+                      
+                    </div>
+                  </div>
+
+                  <div>至</div>
+                   <div class="row">
+                  
+                  <div class="col-md-12">
+                      <div class="col-md-12">
+                      <div>選擇年月</div>
+                        <label class="select">
+                            <select name="toyear" id="toyear-list">
+
+                            </select>
+                            <i aria-hidden="true"></i>
+                        </label>
+                        <label class="select">
+                            <select name="tomonth"  id="tomonth-list">
                             </select>
                             <i aria-hidden="true"></i>
                         </label>
@@ -66,6 +66,9 @@
             <div>year:{{year}}</div>
             <div>month:{{month}}</div>
             {% endif %}
+
+            
+
         </div>
         
 
@@ -74,6 +77,13 @@
 
 <div class="content-right">圖</div>
 
+    <div style="color:white">
+{% for rainfall in rainfall %}
+    {{rainfall.month}}月:{{rainfall.country}}:{{rainfall.rainfall}}</br>
+    {% endfor %}
+    </div>
+        
+    
 <!--
     userid:{{userid}}
     rainfallid:{{data}}
@@ -100,19 +110,20 @@
     </form>
 </div>
 -->
-
+{% if ifpost%}
 <div style="padding-left:150px;">
 {% for post in post %}
-    <div style="color:white">{{post.table1.name}}:{{post.post}}</div>
+    <div style="color:white">{{post.table1.name}}:{{post.post}}{{post.time}}</div>
         
     {% endfor %}
     <textarea name="comment"rows="8"cols="150"required></textarea>
     <button onclick="post()">送出</button>
 </div>
+{% endif %}
 </form>
 		<script type="text/javascript">
 			//var colleges=[{% for rainfallcountry in rainfallcountry %}"{{rainfallcountry.country}}",{% endfor %}];
-            var colleges=['台灣','日本','韓國'];
+            var colleges=[{% if country%}'{{country}}',{%endif%}'台灣','日本','韓國'];
 			var collegeSelect=document.getElementById("country-list");
             
             var handyear=new Array();
@@ -141,13 +152,17 @@
 			
 			
 			var year=new Array();
+			var toyear=new Array();
             var month=new Array();
+            var tomonth=new Array();
             /*for(var i=0;i<colleges.length;i++){
 				year[i]=[{% for rainfallcountry in rainfallcountry %}"{{rainfallcountry.country}}",{% endfor %}];
 			}*/
-            year[0]=[1998,1999,2000];
+            year[0]=[{% if year%}'{{year}}',{%endif%}1998,1999,2000];
+            toyear[0]=[{% if toyear%}'{{toyear}}',{%endif%}1998,1999,2000];
             year[1]=[1999,2000];
-            month[0]=[1,2,3,4,5,6,7,8,9,10,11,12];
+            month[0]=[{% if month%}'{{month}}',{%endif%}1,2,3,4,5,6,7,8,9,10,11,12];
+            tomonth[0]=[{% if tomonth%}'{{tomonth}}',{%endif%}1,2,3,4,5,6,7,8,9,10,11,12];
             month[1]=[1,2,3,4,5,6,7,8,9,10];
 			/*year[0]=[1998,1999];
 			year[1]=[1999];	
@@ -165,18 +180,33 @@
             
             function changeCollege(index){
 				var Sinner="";
+                var toSinner="";
                 var mon="";
+                var tomon="";
 				for(var i=0;i<year[index].length;i++){
 					Sinner=Sinner+'<option value='+year[index][i]+'>'+year[index][i]+'</option>';
 				}
+                for(var i=0;i<year[index].length;i++){
+					toSinner=toSinner+'<option value='+toyear[index][i]+'>'+toyear[index][i]+'</option>';
+				}
+
+
+
 				var sectorSelect=document.getElementById("year-list");
 				sectorSelect.innerHTML=Sinner;
+
+                var tosectorSelect=document.getElementById("toyear-list");
+				tosectorSelect.innerHTML=toSinner;
+                
 
                 for(var i=0;i<month[index].length;i++){
 					mon=mon+'<option value='+month[index][i]+'>'+month[index][i]+'</option>';
 				}
-				var monSelect=document.getElementById("month-list");
+                var monSelect=document.getElementById("month-list");
 				monSelect.innerHTML=mon;
+				var tomonSelect=document.getElementById("tomonth-list");
+				tomonSelect.innerHTML=mon;
+                
 			}
 			changeCollege(document.getElementById("country-list").selectedIndex);
 
@@ -184,12 +214,13 @@
             function search(){ 
             //document.("表单的name值").action
             //document.("表单的name值").submit
- 
+            document.commit.method="get";
             document.commit.action="/search/"; 
             document.commit.submit(); 
             } 
  
             function post() { 
+            document.commit.method="post";
             document.commit.action = "/post/"; 
             document.commit.submit(); 
             }
