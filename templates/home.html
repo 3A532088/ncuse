@@ -1,237 +1,380 @@
 {% extends "base.html" %}
 {% block test %}
+<style>
+    .reply_content {
+        border: 0px dotted #b3b3b3;
+        background: #ebf2f7;
+        margin: 10px 0;
+        border-radius: 0px 0px 0px 0px;
+        padding: 0 20px 0;
+        *padding: 20px 20px 0;
+        display: none;
+    }
+
+    .reply_content .comment_con_li {
+        border-bottom: 1px dotted #b13535;
+        margin: 20px 0 0;
+        position: relative;
+    }
+
+    .autoHeight {
+        height: auto !important;
+        min-height: 0;
+        height: 0;
+    }
+
+    .autoHeight:after {
+        display: block;
+        clear: both;
+        content: ".";
+        visibility: hidden;
+        height: 0;
+    }
+
+    .content_r .info_bar {
+        height: 18px;
+    }
+
+    .text {
+        font-size: 14px;
+        color: #333;
+        margin-top: 8px;
+        line-height: 22px;
+        word-break: break-all;
+        overflow: hidden;
+    }
+
+    .btm_bar {
+        height: 20px;
+        line-height: 20px;
+        font-size: 12px;
+        margin-top: 5px;
+        color: #999;
+        padding: 0;
+        margin: 0;
+        overflow: hidden;
+        margin-top: 5px;
+    }
+</style>
+</style>
 <form action="" method="" enctype="multipart/form-data" name="commit">{% csrf_token %}
-<div class="main-content">
-    
-    <div class="content-left">
+    <div class="main-content">
+
+        <div class="content-left">
             <div class="player_block">
-              <!--<form action="/search/" method="post">{% csrf_token %}-->
-                    <div class="row">
-                  <div class="col-md-12">
-                  
-                    <div>選擇國家</div>
-                    <label class="select" for="spacing">
-                         <select name="country" id="country-list" onchange="changeCollege(this.selectedIndex)" >
-                         </select>
-                         <i aria-hidden="true"></i> 
-                    </label>
-                  </div>
-                  <div class="col-md-12">
-                      <div class="col-md-12">
-                      <div>選擇年月</div>
-                        <label class="select">
-                            <select name="year" id="year-list">
+                <!--<form action="/search/" method="post">{% csrf_token %}-->
+                <div class="row">
+                    <div class="col-md-12">
 
+                        <div>選擇國家</div>
+                        <label class="select" for="spacing">
+                            <select class="btn btn-secondary dropdown-toggle" name="country" id="country-list"
+                                onchange="changeCollege(this.selectedIndex)">
                             </select>
                             <i aria-hidden="true"></i>
                         </label>
-                        <label class="select">
-                            <select name="month"  id="month-list">
-                            </select>
-                            <i aria-hidden="true"></i>
-                        </label>
-                      </div>
-                      
                     </div>
-                  </div>
+                    <div class="col-md-12">
+                        <div class="col-md-12">
+                            <div>選擇年月</div>
+                            <label class="select">
+                                <select class="btn btn-secondary dropdown-toggle" name="year" id="year-list">
 
-                  <div>至</div>
-                   <div class="row">
-                  
-                  <div class="col-md-12">
-                      <div class="col-md-12">
-                      <div>選擇年月</div>
-                        <label class="select">
-                            <select name="toyear" id="toyear-list">
+                                </select>
+                                <i aria-hidden="true"></i>
+                            </label>
+                            <label class="select">
+                                <select class="btn btn-secondary dropdown-toggle" name="month" id="month-list">
+                                </select>
+                                <i aria-hidden="true"></i>
+                            </label>
+                        </div>
 
-                            </select>
-                            <i aria-hidden="true"></i>
-                        </label>
-                        <label class="select">
-                            <select name="tomonth"  id="tomonth-list">
-                            </select>
-                            <i aria-hidden="true"></i>
-                        </label>
-                      </div>
-                      
                     </div>
-                  </div>
-                
-                <button onclick="search()">送出</button>
-             <!--</form>--> 
+                </div>
+
+                <div>至</div>
+                <div class="row">
+
+                    <div class="col-md-12">
+                        <div class="col-md-12">
+                            <div>選擇年月</div>
+                            <label class="select">
+                                <select class="btn btn-secondary dropdown-toggle" name="toyear" id="toyear-list">
+
+                                </select>
+                                <i aria-hidden="true"></i>
+                            </label>
+                            <label class="select">
+                                <select class="btn btn-secondary dropdown-toggle" name="tomonth" id="tomonth-list">
+                                </select>
+                                <i aria-hidden="true"></i>
+                            </label>
+                        </div>
+
+                    </div>
+                </div>
+
+                <button class="btn btn-primary" onclick="search()">送出</button>
+                <!--</form>
              {% if country%}
             <div>country:{{country}}</div>
             {% endif %}
             {% if year%}
             <div>year:{{year}}</div>
             <div>month:{{month}}</div>
-            {% endif %}
+            {{sumrainfall}}
+            {{avgcountryrainfall}}
+            {% endif %}-->
 
-            
+
+
+
+            </div>
+
 
         </div>
-        
-
-</div>
 
 
-<div class="content-right">圖</div>
+        <div class="content-right">
+            <div class="bg">
 
-    <div style="color:white">
-{% for rainfall in rainfall %}
+                <div style="width:300px;height:300px;border:3px #cccccc dashed;background-color:white;">
+                    <canvas id="myChart" width="100" height="100"></canvas>
+                    <script>
+
+                        var ctx = document.getElementById('myChart').getContext('2d');
+                        var myChart = new Chart.Line(ctx, {//Doughnut (環狀圖)Pie (圓餅圖)Line (折線圖)Bar (柱狀圖)Radar (雷達圖)PolarArea (極地圖)
+                            //type: 'bar',
+
+                            data: {
+        //labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        {% if ifpost %}
+                        labels: [{% for rainfall in rainfall %}'{{rainfall.country}}', {% endfor %}],
+                        {% else %}
+                        labels: [{% for rainfall in rainfall %}{ { rainfall.month } }, {% endfor %}],
+                        {% endif %}
+                        datasets: [{
+                            label: '雨量',
+                            //data: [12, 19, 3, 5, 2, 3],
+                            data: [{% for rainfall in rainfall %}{{ rainfall.rainfall }}, {% endfor %}],
+                            backgroundColor: [
+                                'rgba(39, 167, 236, 0.2)',
+                                'rgba(54, 162, 235, 0.2)',
+                                'rgba(255, 206, 86, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(153, 102, 255, 0.2)',
+                                'rgba(255, 159, 64, 0.2)',
+                                'rgba(255, 159, 64, 0.2)',
+                            ],
+                                borderColor: [
+                                    'rgba(39, 167, 236, 0.8)',
+                                    'rgba(54, 162, 235, 1)',
+                                    'rgba(255, 206, 86, 1)',
+                                    'rgba(75, 192, 192, 1)',
+                                    'rgba(153, 102, 255, 1)',
+                                    'rgba(255, 159, 64, 1)',
+                                    'rgba(255, 159, 64, 1)'
+                                ],
+                                    borderWidth: 1
+        }]
+    },
+                        options: {
+                            scales: {
+
+                                yAxes: [{
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: '雨量',
+                                        fontColor: 'black'
+                                    },
+                                    ticks: {
+                                        beginAtZero: true
+                                    }
+                                }],
+                                    xAxes: [{
+                                        scaleLabel: {
+                                            display: true,
+              {% if ifpost %}
+                            labelString: '國家',
+                                {% else %}
+                        labelString: '月份',
+                            {% endif %}
+                        fontColor: 'black'
+            },
+                        ticks: {
+                            beginAtZero: true
+                        }
+            }]
+        }
+    }
+});
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <!--<div style="color:white">
+    {% for rainfall in rainfall %}
     {{rainfall.month}}月:{{rainfall.country}}:{{rainfall.rainfall}}</br>
     {% endfor %}
-    </div>
-        
-    
+    </div>-->
+
+
+        {% if ifpost%}
+        <!--<div style="padding-left:150px;padding-right:150px;">-->
+        <div style="float:right;padding-right:150px;">
+            <div
+                style="height:500px;width:300px;overflow:auto;overflow-x:hidden;color:black;background:#ebf2f7; border: 1px dotted #b3b3b3;">
+                <div class="reply_content" id="new_reply_547569" style="display: block;">
+                    {% for post in post %}
+                    <div class="comment_con_li autoHeight" id="544584_0">
+                        <div class="info_bar">
+                            <span class="userName"></span>
+                            <span class="icon_nan"></span>
+                            <span class="floor">{{post.table1.name}}:</span>
+                        </div>
+                        <p class="text">
+                            <span class="textCon">{{post.post}}</span>
+                        </p>
+                        <div class="btm_bar">
+                            <span class="time">{{post.time}}
+                            </span>
+
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+            </div>
+            <div style="padding-rigt:0px;">
 <!--
-    userid:{{userid}}
-    rainfallid:{{data}}
-    {% for rainfallcountry in rainfallcountry %}
-        {{rainfallcountry.country}},
-    {% endfor %}
-    {% for alldata in alldata %}
-        {%ifequal alldata.country '日本'%}
-        {{alldata.year}},
-        {% endifequal%}
-    {% endfor %}
-
-    {{list_time}},
-  -->  
-</div>
-
-
-<!--
-<div style="padding-left:150px;">
-    <form action="/post/" method="post">{% csrf_token %}
-
-    <textarea name="comment"rows="8"cols="150"required></textarea>
-    <button type="submit" class="btn" value="Submit" >送出</button>
-    </form>
-</div>
--->
-{% if ifpost%}
-<div style="padding-left:150px;">
 {% for post in post %}
     <div style="color:white">{{post.table1.name}}:{{post.post}}{{post.time}}</div>
         
-    {% endfor %}
-    <textarea name="comment"rows="8"cols="150"required></textarea>
-    <button onclick="post()">送出</button>
+    {% endfor %}-->
+    <div style="color:white;">發表評論:</div>
+    <textarea style="border-radius: 20px 20px 20px 20px;" name="comment"rows="3"cols="40"required></textarea></br>
+    <button class="btn btn-primary" onclick="post()">送出</button>
 </div>
-{% endif %}
-</form>
-		<script type="text/javascript">
-			//var colleges=[{% for rainfallcountry in rainfallcountry %}"{{rainfallcountry.country}}",{% endfor %}];
-            var colleges=[{% if country%}'{{country}}',{%endif%}'台灣','日本','韓國'];
-			var collegeSelect=document.getElementById("country-list");
-            
-            var handyear=new Array();
+        </div>
 
-            
-            /*var tempyear=[{% for alldata in alldata %}{% ifequal alldata.country '日本' %} {{alldata.year}},{% endifequal%}{% endfor %}];
-            handyear[0]=tempyear[0];
-            var temp=0;
-            for(var i=0;i<tempyear.length-1;i++){
-                if(tempyear[i]!=tempyear[i+1]){
-                    temp++;
-                    handyear[temp]=tempyear[i+1];
-                    
-                }
-            }*/
+    </div>
 
 
-
-			var inner="";
-			for(var i=0;i<colleges.length;i++){
-				inner=inner+'<option value='+colleges[i]+'>'+colleges[i]+'</option>';
-                handyear[i]=new Array();
-
-			}
-			collegeSelect.innerHTML=inner;
-			
-			
-			var year=new Array();
-			var toyear=new Array();
-            var month=new Array();
-            var tomonth=new Array();
-            /*for(var i=0;i<colleges.length;i++){
-				year[i]=[{% for rainfallcountry in rainfallcountry %}"{{rainfallcountry.country}}",{% endfor %}];
-			}*/
-            year[0]=[{% if year%}'{{year}}',{%endif%}1998,1999,2000];
-            toyear[0]=[{% if toyear%}'{{toyear}}',{%endif%}1998,1999,2000];
-            year[1]=[1999,2000];
-            month[0]=[{% if month%}'{{month}}',{%endif%}1,2,3,4,5,6,7,8,9,10,11,12];
-            tomonth[0]=[{% if tomonth%}'{{tomonth}}',{%endif%}1,2,3,4,5,6,7,8,9,10,11,12];
-            month[1]=[1,2,3,4,5,6,7,8,9,10];
-			/*year[0]=[1998,1999];
-			year[1]=[1999];	
-			sectors[2]=['土木工程學系 ',' 水利工程與資源保育學系 ',' 都市計畫與空間資訊學系 ',' 運輸與物流學系 ',' 土地管理學系 ','景觀與遊憩碩士學位學程 ',' 專案管理碩士在職學位學程 ',' 建設碩士在職學位學程 ','土木水利工程與建設規劃博士學位學程 '];	
-			sectors[3]=['風險管理與保險學系 ',' 財務金融學系 ',' 財務工程與精算學士學位學程 ','金融碩士在職學位學程 ','金融博士學位學程 '];
-			sectors[4]=['建築專業學院學士班 ',' 建築學士學位學程 ',' 室內設計學士學位學程 ',' 室內設計進修學士班 ',' 創新設計學士學位學程 ',' 建築碩士學位學程 ',' 建築碩士在職學位學程','澳洲墨爾本皇家理工大學商學與創新雙學士學位學程 ','美國聖荷西州立大學商學大數據分析雙學士學位學程 ']
-			sectors[5]=['美國普渡大學電機資訊雙學士學位學程 ','西班牙薩拉戈薩大學物流供應鏈管理與創新創業雙碩士學位學程 ','國際經營管理碩士學位學程 '];
-			sectors[6]=['資訊工程學系 ',' 電機工程學系 ',' 電子工程學系 ',' 自動控制工程學系 ',' 通訊工程學系',' 資電不分系榮譽班 ','資訊電機工程碩士在職學位學程 ',' 產業研發碩士專班 ',' 生醫資訊暨生醫工程碩士學位學程 ',' 視光科技碩士在職學位學程 ','電機與通訊工程博士學位學程 ',' 智慧聯網產業博士學位學程'];
-			sectors[7]=['中國文學系 ',' 外國語文學系 ','歷史與文物研究所 ',' 公共事務與社會創新研究所 '];
-			sectors[8]=['應用數學系 ',' 環境工程與科學學系 ',' 材料科學與工程學系 ',' 光電學系 ','微積分教學中心 ',' 物理教學研究中心 '];
-			sectors[9]=['經營管理碩士在職學位學程 ',' 電子商務碩士在職專班 '];
-			sectors[10]=[];
-			sectors[11]=['通識教育中心 ',' 雲端學院 ','外語教學中心 ',' 國語文教學中心 ','全校國際生大一不分系學士班 '];*/
-
-            
-            function changeCollege(index){
-				var Sinner="";
-                var toSinner="";
-                var mon="";
-                var tomon="";
-				for(var i=0;i<year[index].length;i++){
-					Sinner=Sinner+'<option value='+year[index][i]+'>'+year[index][i]+'</option>';
-				}
-                for(var i=0;i<year[index].length;i++){
-					toSinner=toSinner+'<option value='+toyear[index][i]+'>'+toyear[index][i]+'</option>';
-				}
-
-
-
-				var sectorSelect=document.getElementById("year-list");
-				sectorSelect.innerHTML=Sinner;
-
-                var tosectorSelect=document.getElementById("toyear-list");
-				tosectorSelect.innerHTML=toSinner;
-                
-
-                for(var i=0;i<month[index].length;i++){
-					mon=mon+'<option value='+month[index][i]+'>'+month[index][i]+'</option>';
-				}
-                var monSelect=document.getElementById("month-list");
-				monSelect.innerHTML=mon;
-				var tomonSelect=document.getElementById("tomonth-list");
-				tomonSelect.innerHTML=mon;
-                
-			}
-			changeCollege(document.getElementById("country-list").selectedIndex);
-
-
-            function search(){ 
-            //document.("表单的name值").action
-            //document.("表单的name值").submit
-            document.commit.method="get";
-            document.commit.action="/search/"; 
-            document.commit.submit(); 
-            } 
- 
-            function post() { 
-            document.commit.method="post";
-            document.commit.action = "/post/"; 
-            document.commit.submit(); 
-            }
-
-		</script>
-
-    {% if messages %}
-        <script>
-            {% for msg in messages %}
-                alert('{{ msg.message }}');
-            {% endfor %}
-        </script>
     {% endif %}
+</form>
+
+<script type="text/javascript">
+    //var colleges=[{% for rainfallcountry in rainfallcountry %}"{{rainfallcountry.country}}",{% endfor %}];
+    //var colleges=[{% if country%}'{{country}}',{%endif%}'台灣台北','日本','印尼雅加達','馬來西亞吉隆坡','沙烏地阿拉伯利雅德','新加坡'];
+    var colleges = [{% if country %}'{{country}}', {% endif %}'台灣', '日本', '印尼雅加達', '馬來西亞吉隆坡', '沙烏地阿拉伯利雅德'];
+    var collegeSelect = document.getElementById("country-list");
+
+    var handyear = new Array();
+
+
+    /*var tempyear=[{% for alldata in alldata %}{% ifequal alldata.country '日本' %} {{alldata.year}},{% endifequal%}{% endfor %}];
+    handyear[0]=tempyear[0];
+    var temp=0;
+    for(var i=0;i<tempyear.length-1;i++){
+        if(tempyear[i]!=tempyear[i+1]){
+            temp++;
+            handyear[temp]=tempyear[i+1];
+            
+        }
+    }*/
+
+    var inner = "";
+    for (var i = 0; i < colleges.length; i++) {
+        inner = inner + '<option value=' + colleges[i] + '>' + colleges[i] + '</option>';
+        handyear[i] = new Array();
+
+    }
+    collegeSelect.innerHTML = inner;
+
+
+    var year = new Array();
+    var toyear = new Array();
+    var month = new Array();
+    var tomonth = new Array();
+    /*for(var i=0;i<colleges.length;i++){
+        year[i]=[{% for rainfallcountry in rainfallcountry %}"{{rainfallcountry.country}}",{% endfor %}];
+    }*/
+    year[0] = [{% if year %}'{{year}}', {% endif %}1998, 1999, 2000];
+    toyear[0] = [{% if toyear %}'{{toyear}}', {% endif %}1998, 1999, 2000];
+    year[1] = [1999, 2000];
+    month[0] = [{% if month %}'{{month}}', {% endif %}1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+    tomonth[0] = [{% if tomonth %}'{{tomonth}}', {% endif %}1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+    month[1] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    /*year[0]=[1998,1999];
+    year[1]=[1999];	
+    sectors[2]=['土木工程學系 ',' 水利工程與資源保育學系 ',' 都市計畫與空間資訊學系 ',' 運輸與物流學系 ',' 土地管理學系 ','景觀與遊憩碩士學位學程 ',' 專案管理碩士在職學位學程 ',' 建設碩士在職學位學程 ','土木水利工程與建設規劃博士學位學程 '];	
+    sectors[3]=['風險管理與保險學系 ',' 財務金融學系 ',' 財務工程與精算學士學位學程 ','金融碩士在職學位學程 ','金融博士學位學程 '];
+    sectors[4]=['建築專業學院學士班 ',' 建築學士學位學程 ',' 室內設計學士學位學程 ',' 室內設計進修學士班 ',' 創新設計學士學位學程 ',' 建築碩士學位學程 ',' 建築碩士在職學位學程','澳洲墨爾本皇家理工大學商學與創新雙學士學位學程 ','美國聖荷西州立大學商學大數據分析雙學士學位學程 ']
+    sectors[5]=['美國普渡大學電機資訊雙學士學位學程 ','西班牙薩拉戈薩大學物流供應鏈管理與創新創業雙碩士學位學程 ','國際經營管理碩士學位學程 '];
+    sectors[6]=['資訊工程學系 ',' 電機工程學系 ',' 電子工程學系 ',' 自動控制工程學系 ',' 通訊工程學系',' 資電不分系榮譽班 ','資訊電機工程碩士在職學位學程 ',' 產業研發碩士專班 ',' 生醫資訊暨生醫工程碩士學位學程 ',' 視光科技碩士在職學位學程 ','電機與通訊工程博士學位學程 ',' 智慧聯網產業博士學位學程'];
+    sectors[7]=['中國文學系 ',' 外國語文學系 ','歷史與文物研究所 ',' 公共事務與社會創新研究所 '];
+    sectors[8]=['應用數學系 ',' 環境工程與科學學系 ',' 材料科學與工程學系 ',' 光電學系 ','微積分教學中心 ',' 物理教學研究中心 '];
+    sectors[9]=['經營管理碩士在職學位學程 ',' 電子商務碩士在職專班 '];
+    sectors[10]=[];
+    sectors[11]=['通識教育中心 ',' 雲端學院 ','外語教學中心 ',' 國語文教學中心 ','全校國際生大一不分系學士班 '];*/
+
+
+    function changeCollege(index) {
+        var Sinner = "";
+        var toSinner = "";
+        var mon = "";
+        var tomon = "";
+        for (var i = 0; i < year[index].length; i++) {
+            Sinner = Sinner + '<option value=' + year[index][i] + '>' + year[index][i] + '</option>';
+        }
+        for (var i = 0; i < year[index].length; i++) {
+            toSinner = toSinner + '<option value=' + toyear[index][i] + '>' + toyear[index][i] + '</option>';
+        }
+
+
+
+        var sectorSelect = document.getElementById("year-list");
+        sectorSelect.innerHTML = Sinner;
+
+        var tosectorSelect = document.getElementById("toyear-list");
+        tosectorSelect.innerHTML = toSinner;
+
+
+        for (var i = 0; i < month[index].length; i++) {
+            mon = mon + '<option value=' + month[index][i] + '>' + month[index][i] + '</option>';
+        }
+        var monSelect = document.getElementById("month-list");
+        monSelect.innerHTML = mon;
+        var tomonSelect = document.getElementById("tomonth-list");
+        tomonSelect.innerHTML = mon;
+
+    }
+    changeCollege(document.getElementById("country-list").selectedIndex);
+
+
+    function search() {
+        //document.("表单的name值").action
+        //document.("表单的name值").submit
+        document.commit.method = "get";
+        document.commit.action = "/search/";
+        document.commit.submit();
+    }
+
+    function post() {
+        document.commit.method = "post";
+        document.commit.action = "/post/";
+        document.commit.submit();
+    }
+
+</script>
+
+{% if messages %}
+<script>
+    {% for msg in messages %}
+    alert('{{ msg.message }}');
+    {% endfor %}
+</script>
+{% endif %}
 {% endblock %}

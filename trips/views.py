@@ -104,9 +104,22 @@ def search(request):
         if year == toyear and month == tomonth:
             getpost = Post.objects.filter(rainfall=rainfallid)
             ifpost = 1
+
             getcountrytrainfall = TestRainfall.objects.filter(
                 year=year, month=month)
-            return render(request, 'home.html', {'rainfall': getcountrytrainfall, 'post': getpost, 'ifpost': ifpost, 'country': country, 'year': year, 'month': month, 'toyear': toyear, 'tomonth': tomonth, })
+            getcountrytrainfallsize = getcountrytrainfall.count()
+            sumcountryrainfall = 0
+            for i in range(0, getcountrytrainfallsize):
+                sumcountryrainfall += getcountrytrainfall[i].rainfall
+            avgcountryrainfall = sumcountryrainfall/getcountrytrainfallsize
+
+            return render(request, 'home.html', {'avgcountryrainfall': avgcountryrainfall, 'rainfall': getcountrytrainfall, 'post': getpost, 'ifpost': ifpost, 'country': country, 'year': year, 'month': month, 'toyear': toyear, 'tomonth': tomonth, })
+
+        getrainfallsize = getrainfall.count()
+        sumrainfall = 0
+        for i in range(0, getrainfallsize):
+            sumrainfall += getrainfall[i].rainfall
+        avgrainfall = sumrainfall/getrainfallsize
 
     return render(request, 'home.html', {
         'rainfall': getrainfall,
@@ -115,6 +128,8 @@ def search(request):
         'month': month,
         'toyear': toyear,
         'tomonth': tomonth,
+        'sumrainfall': sumrainfall,
+        'avgrainfall': round(avgrainfall, 1),
     })
 
 
