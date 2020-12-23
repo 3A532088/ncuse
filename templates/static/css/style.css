@@ -274,6 +274,7 @@ body {
 .content-left{
 	float:left;
 	height:500px;
+	width:200px;
 }
 .content-right{
 	float:left;
