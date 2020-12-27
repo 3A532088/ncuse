@@ -1,15 +1,16 @@
 {% extends "manbase.html" %}
 {% block test2 %}
 
-            
-<div class="content-w3ls2">
 
+<div class="content-w3ls2">
+    
     <form action="modify" method="post">{% csrf_token %}
     <div>使用者:{{username}}</div>
     <input type="hidden" name="username" value="{{username}}">
     修改密碼:<input type="text" name="password" >
     <div>
     <button type="submit" class="btn" name="login_btn" value="Submit">確認</button>
+    <input type ="button" onclick="javascript:location.href='{% url 'ManagerPassword' %}'" value="返回"></input>
     </div>
 
     </form>

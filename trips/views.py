@@ -100,7 +100,7 @@ def search(request):
 
         getrainfall = TestRainfall.objects.filter(
             id__range=[rainfallid, torainfallid], country=country)
-
+        issearch = 1
         if year == toyear and month == tomonth:
             getpost = Post.objects.filter(rainfall=rainfallid)
             ifpost = 1
@@ -113,7 +113,7 @@ def search(request):
                 sumcountryrainfall += getcountrytrainfall[i].rainfall
             avgcountryrainfall = sumcountryrainfall/getcountrytrainfallsize
 
-            return render(request, 'home.html', {'avgcountryrainfall': avgcountryrainfall, 'rainfall': getcountrytrainfall, 'post': getpost, 'ifpost': ifpost, 'country': country, 'year': year, 'month': month, 'toyear': toyear, 'tomonth': tomonth, })
+            return render(request, 'home.html', {'waterrainfall': getrainfallid[0].rainfall, 'rainfall': getcountrytrainfall, 'post': getpost, 'ifpost': ifpost, 'country': country, 'year': year, 'month': month, 'toyear': toyear, 'tomonth': tomonth, })
 
         getrainfallsize = getrainfall.count()
         sumrainfall = 0
@@ -130,6 +130,7 @@ def search(request):
         'tomonth': tomonth,
         'sumrainfall': sumrainfall,
         'avgrainfall': round(avgrainfall, 1),
+        'issearch': issearch
     })
 
 
@@ -161,6 +162,8 @@ def post(request):
             'country': country,
             'year': year,
             'month': month,
+            'toyear': toyear,
+            'tomonth': tomonth,
             'ifpost': ifpost,
             'rainfall': getcountrytrainfall,
 
@@ -183,6 +186,14 @@ def mainweb(request):
         messages.success(request, '請先登入')
         return redirect("/login",)
 
+
+def memberspace(request):
+    if request.session['is_login'] == True:
+        username = request.session['username']
+        return render(request, "memberspace.html", {'username': username, })
+    else:
+        messages.success(request, '請先登入')
+        return redirect("/login",)
 # -------------------------------------------------------------------------------------------------------------------------
 # @cache_page(60 * 15)  # 60秒數，這裡指快取 15 分鐘，不直接寫900是為了提高可讀性
 

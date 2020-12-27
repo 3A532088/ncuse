@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block test2 %}
+
+
+        
+
+
+
+<script>
+
+</script>
+
+
+{% if messages %}
+    <script>
+        {% for msg in messages %}
+            alert('{{ msg.message }}');
+        {% endfor %}
+    </script>
+{% endif %}
+{% endblock %}

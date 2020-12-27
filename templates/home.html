@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block test %}
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <style>
 .reply_content {
     border: 0px dotted #b3b3b3;
@@ -53,6 +54,66 @@
     margin: 0;
     overflow: hidden;
     margin-top: 5px;
+}
+
+/*水球*/
+.watermain,.wave{
+    width:200px;
+    height:200px;
+    border-radius: 50%;
+    
+
+    transform: translate(-50%,-50%);
+}
+.watermain{
+    {% if ifpost%}
+    padding-left: 230px;
+    padding-top: 250px;
+    {% else %}
+    padding-left: 330px;
+    padding-top: 250px;
+    {% endif %}
+    
+    float:left;
+}
+.wave{
+    background:darkturquoise;
+    overflow: hidden;
+    font-size: 32px;
+}
+/*width&height越大方越下面*/
+.wave:after{
+content:"";
+width:300px;
+height:300px;
+background:rgba(255, 255, 255, 0.8);
+position:absolute;
+left:50%;
+top:0;
+transform:translate(-50%,-60%);
+border-radius: 40%;
+animation: wave 5s linear infinite;
+}
+.wave::before{
+    {% if ifpost%}
+    content: "{{waterrainfall}} mm";
+    {% else %}
+    content: "{{sumrainfall}} mm";
+    {% endif %}
+    
+    position: absolute;
+    left: 50%;
+    top:0;
+    color: darkturquoise;
+    z-index: 99;
+    transform: translate(-50%,30px);
+    /*text-transform: uppercase;*/
+}
+@keyframes wave{
+    100%{
+        transform:translate(-50%,-60%) rotate(360deg);
+    }
+
 }
 </style>
 </style>
@@ -132,13 +193,49 @@
         
 
 </div>
+{% if issearch or ifpost%}
 
-
+{% if ifpost%}
 <div class="content-right">
-<div class="bg">
+<h1>{{ country }}{{ month }}月雨量:</h1>
+    
+    <div class="watermain">
+        <div class="wave">
+        
+        </div>
+    </div>
+</div>
+<div class="content-right">
+<div style="padding-left:100px;">
+<h1>各城市雨量比較:</h1>
+</div>
+
+<div class="bg"  style="padding-left:100px;">
 
 <div style="width:300px;height:300px;border:3px #cccccc dashed;background-color:white;">
 <canvas id="myChart" width="100" height="100"></canvas>
+
+{% else %}
+<div class="content-right">
+<h1>{{ country }}{{ month }}~{{ tomonth }}月總雨量:</h1>
+<div></div>
+<div class="watermain">
+        <div class="wave">
+        </div>
+    </div>
+</div>
+<div class="content-right">
+<div style="padding-left:50px;">
+<h1>區間雨量:</h1>
+</div>
+
+<div class="bg"  style="padding-left:50px;">
+
+<div style="width:300px;height:300px;border:3px #cccccc dashed;background-color:white;">
+<canvas id="myChart" width="100" height="100"></canvas>
+
+{% endif%}
+
 <script>
 
 var ctx = document.getElementById('myChart').getContext('2d');
@@ -211,52 +308,55 @@ var myChart = new Chart.Line(ctx, {//Doughnut (環狀圖)Pie (圓餅圖)Line (�
 </div>
 </div>
 </div>
-
+{% else %}
+<div class="content-right">
+    <h1>請搜尋欲查詢雨量國家年月</h1>
+</div>
+{% endif%}
     <!--<div style="color:white">
     {% for rainfall in rainfall %}
     {{rainfall.month}}月:{{rainfall.country}}:{{rainfall.rainfall}}</br>
     {% endfor %}
     </div>-->
         
-    
+
 {% if ifpost%}
+
 <!--<div style="padding-left:150px;padding-right:150px;">-->
 <div style="float:right;padding-right:150px;">
-<div style="height:500px;width:300px;overflow:auto;overflow-x:hidden;color:black;background:#ebf2f7; border: 1px dotted #b3b3b3;">
-<div class="reply_content" id="new_reply_547569" style="display: block;">
-{% for post in post %}
-<div class="comment_con_li autoHeight" id="544584_0">
-<div class="info_bar">
-<span class="userName"></span>
-<span class="icon_nan"></span>
-<span class="floor">{{post.table1.name}}:</span>
-</div><p class="text">
-<span class="textCon">{{post.post}}</span>
-</p>
-<div class="btm_bar">
-<span class="time">{{post.time}}
-</span>
+    <div><h1>討論區</h1></div>
+    <div style="height:500px;width:300px;overflow:auto;overflow-x:hidden;color:black;background:#ebf2f7; border: 1px dotted #b3b3b3;">
+        <div class="reply_content" id="new_reply_547569" style="display: block;">
+            {% for post in post %}
+            <div class="comment_con_li autoHeight" id="544584_0">
+                <div class="info_bar">
+                    <span class="userName"></span>
+                    <span class="icon_nan"></span>
+                    <span class="floor">{{post.table1.name}}:</span>
+                </div>
+                <p class="text">
+                    <span class="textCon">{{post.post}}</span>
+                </p>
+                <div class="btm_bar">
+                    <span class="time">{{post.time}}
+                    </span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
 
-</div></div>
-{% endfor %}
+    </div>
+    <div style="padding-rigt:0px;">
+        <div style="color:white;">發表評論:</div>
+        <textarea style="border-radius: 20px 20px 20px 20px;" name="comment"rows="3"cols="40"required></textarea></br>
+        <button class="btn btn-primary" onclick="post()">送出</button>
+    </div>
 </div>
 
 </div>
-           <div style="padding-rigt:0px;">
-<!--
-{% for post in post %}
-    <div style="color:white">{{post.table1.name}}:{{post.post}}{{post.time}}</div>
-        
-    {% endfor %}-->
-    <div style="color:white;">發表評論:</div>
-    <textarea style="border-radius: 20px 20px 20px 20px;" name="comment"rows="3"cols="40"required></textarea></br>
-    <button class="btn btn-primary" onclick="post()">送出</button>
+<div style="padding-left:490px">
+    <div id="regions_div"  style="width: 650px; height: 400px;"></div>
 </div>
-</div>
-
-</div>
-
-
 {% endif %}
 </form>
 
@@ -315,7 +415,6 @@ var myChart = new Chart.Line(ctx, {//Doughnut (環狀圖)Pie (圓餅圖)Line (�
 			sectors[10]=[];
 			sectors[11]=['通識教育中心 ',' 雲端學院 ','外語教學中心 ',' 國語文教學中心 ','全校國際生大一不分系學士班 '];*/
 
-            
             function changeCollege(index){
 				var Sinner="";
                 var toSinner="";
@@ -364,7 +463,45 @@ var myChart = new Chart.Line(ctx, {//Doughnut (環狀圖)Pie (圓餅圖)Line (�
             }
 
 		</script>
+<script type="text/javascript">
+      google.charts.load('current', {
+        'packages':['geochart'],
+        // Note: you will need to get a mapsApiKey for your project.
+        // See: https://developers.google.com/chart/interactive/docs/basic_load_libs#load-settings
+        'mapsApiKey': 'AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY'
+      });
+      google.charts.setOnLoadCallback(drawRegionsMap);
 
+      function drawRegionsMap() {
+        var data = google.visualization.arrayToDataTable([
+          ['Country', 'Popularity'],
+          ['Germany', 0],
+          ['United States', 300],
+          ['Brazil', 400],
+          ['Canada', 500],
+          ['Taiwan', 600],
+		  ['Indonesia',300],
+		  ['Malaysia',500],
+          ['RU', 700]
+        ]);
+		
+
+        var options = {
+		sizeAxis: { minValue: 0, maxValue: 100 },
+		//region: '155', // Western Europe
+		//region: 'world ',// Asia
+		region: '142',//TW#70edef
+        backgroundColor:'#90f5f7'
+	
+		};
+		
+		options['colors'] = ['#f7ecec', '#f39090', '#f33838', '#ff0000']; //orange colors
+		options['dataMode'] = 'markers';
+        var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
+
+        chart.draw(data, options);
+      }
+    </script>
     {% if messages %}
         <script>
             {% for msg in messages %}
