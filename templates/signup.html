@@ -39,10 +39,17 @@
 
 <body>
 {% block test %}
+    <style>
+    input::placeholder {
+  color: white;
+  font-size: 1.2em;
+  font-style: italic;
+}
+    </style>
  <div class="content-bottom">
  <div class="content-w3ls">
- <div class="text-center icon">
- <span class="" style="color:white;font-size:26px;">註冊</span>
+ <div class="text-center2 icon">
+ <span class="" style="color:white;font-size:26px;font-weight:bold;">註冊</span>
 				<form action="" method="" name="commit">{% csrf_token %}
 					<div class="field-group">
 						<span class="fa fa-user" style="font-size:54px" aria-hidden="true" ></span>
@@ -64,7 +71,7 @@
 					</div>
 
 					<div class="wthree-field">
-						<button type="submit" class="btn" name="login_btn" value="Submit" onclick="dosub()">註冊</button>
+						<button type="submit" class="btn" name="login_btn" value="Submit" onclick="dosub()" style="font-weight:bold;font-size:18px;">註冊</button>
 					</div>
 					
 				</form>
@@ -79,9 +86,13 @@
     var i = /[0-9]+/;
     var str = /[A-Za-z]/;
     var reg = /[~#^$@%&!?%*]/gi;
-    var rex = /[^\u4e00-\u9fa5]/;
+    var rex = /[\u4E00-\u9FA5]{1,2}$/;
     var check=1;
-    if(!str.test(s)){
+    if(rex.test(s)){
+    alert("c不能包含特殊字元");
+    check=0;
+  }
+    else if(!str.test(s)){
      alert("帳號必須包含英文字母");
     check=0;
   }
@@ -96,8 +107,8 @@
     alert("不能包含特殊字元");
     check=0;
   }
-    else if(rex.test(password.trim())){
-    alert("不能包含特殊字元");
+   else if(rex.test(password)){
+    alert("m不能包含特殊字元");
     check=0;
   }
      else if(reg.test(password.trim())){
@@ -105,7 +116,7 @@
     check=0;
   }
      else if(!str.test(password)){
-     alert("密碼必須包含英文字母");
+     alert("帳號必須包含英文字母");
     check=0;
   }
 

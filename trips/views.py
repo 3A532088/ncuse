@@ -439,6 +439,18 @@ def managerpost(request):
         messages.success(request, '請先登入')
         return redirect("/manager/login",)
 
+# 管理員查看問題回報
+
+
+def managerreport(request):
+    if request.session['is_login'] == True:
+        username = request.session['username']
+        getpost = Report.objects.all()
+
+        return render(request, "managerreport.html", {'username': username, 'post': getpost, })
+    else:
+        messages.success(request, '請先登入')
+        return redirect("/manager/login",)
 # 管理員管理貼文帳號查詢
 
 

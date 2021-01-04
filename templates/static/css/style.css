@@ -237,7 +237,7 @@ body {
 	font-family: 'Mukta', sans-serif;
 }
 .main {
-    background: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)),url(../images/bg.jpg) no-repeat center;
+    background: url(../images/bg.jpg) no-repeat center;
     background-size: cover;
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -262,7 +262,20 @@ body {
     padding: 2em 0;
 }
 .text-center {
-    text-align: center;
+    text-align: center;1
+	background-color:black;
+	background:linear-gradient(rgba(0,0,0,0.2),rgba(0,0,0,0.2));
+	border-radius: 35px;
+	height:200px;
+
+}
+.text-center2 {
+    text-align: center;1
+	background-color:black;
+	background:linear-gradient(rgba(0,0,0,0.2),rgba(0,0,0,0.2));
+	border-radius: 35px;
+	height:250px;
+
 }
 
 /*/////////////// FONT STYLES ////////////////////*/
@@ -274,11 +287,11 @@ body {
 .content-left{
 	float:left;
 	height:500px;
-	width:200px;
+	width:220px;
 }
 .content-right{
 	float:left;
-	padding-left: 100px;
+	padding-left: 50px;
 	
 }
 
@@ -301,7 +314,7 @@ ul.links-unordered-list li.active a {
     color: #eee;
 }
 .icon{
-	margin-bottom:3em;500px
+	/*margin-bottom:3em;500px*/
 }
 .content-bottom {
     padding: 0em 4em;
@@ -470,6 +483,7 @@ form .field-group .wthree-field {
     display: -webkit-flex;
     justify-content: space-between;
     margin: 0em 10em;
+	
 }
 ul.links-unordered-list li {
     display: inline-block;

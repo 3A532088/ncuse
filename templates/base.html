@@ -45,12 +45,12 @@
 
 <body>
 
-<section class="main" >
+<section class="main bg-blur" >
 	<div class="layer">
 		<!--background: url(../images/bg2.jpg) no-repeat center;-->
 		<div class="bottom-grid">
 			<div class="logo">
-				<h1> <a href="{% url 'Home' %}"><span class="fa fa-tint"></span> 首頁</a></h1>
+				<h1> <a href="{% url 'Home' %}" style="color:#3a91ec;font-weight:bold;"><span class="fa fa-tint" ></span> ra<span style="color:red">info</span></a></h1>
 			</div>
 			<div class="links">
 				<ul class="links-unordered-list">
@@ -59,26 +59,31 @@
                     <li class="">
 						<!--<<a href="{% url 'Memberspace' %}">{{request.session.username }}</a>-->
                         
-                        <a class="" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-size:24px;color:black; font-weight:bold;">
                         {{request.session.username }}
                         </a>
 
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                        <a class="dropdown-item" href="{% url 'Memberspace' %}">修改會員密碼</a>
-                        <a class="dropdown-item" href="{% url 'Memberpost' %}">歷史貼文</a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" >
+                        <a class="dropdown-item" href="{% url 'Memberspace' %}" style="color:black;">修改會員密碼</a>
+                        <a class="dropdown-item" href="{% url 'Memberpost' %}" style="color:black;">歷史貼文</a>
+                        <a class="dropdown-item" href="{% url 'Memberreport' %}" style="color:black;">問題回報</a>
                         </div>
                     
 					</li>
                     <li class="">
-						<a href="{% url 'Logout' %}">登出</a>
+					</li>
+                    <li class="">
+						<a href="{% url 'Logout' %}" style="font-size:24px;color:black; font-weight:bold;">登出</a>
                         
 					</li>
                     {% else %}
                     <li class="">
-						<a href="{% url 'Login' %}">登入</a>
+						<a href="{% url 'Login' %}" style="font-size:24px;color:black; font-weight:bold;">登入</a>
+					</li>
+                    <li class="">
 					</li>
 					<li class="">
-						<a href="{% url 'Signup' %}">註冊</a>
+						<a href="{% url 'Signup' %}" style="font-size:24px;color:black; font-weight:bold;">註冊</a>
 					</li>					
                     {% endif %}
 				</ul>

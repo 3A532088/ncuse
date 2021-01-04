@@ -60,7 +60,7 @@ main, nav {
 }
 
 </style>
-<div style="padding-left:350px;padding-top:50px;">
+ <div style="padding-left:350px;padding-top:50px;">
  <nav class="side-bar f-left">
 <div data-v-4068fe3b="" class="nav-item-ctnr pointer none-select expanded"><!---->
 <div data-v-4068fe3b="" class="nav-item b-box p-relative ts-dot-2 expanded">
@@ -87,46 +87,31 @@ main, nav {
 
 
 </nav>
+<div style="padding-left:200px ;padding-right:550px">
+    <div style="background:white;border-radius: 12px;white:220px;height:780px;overflow:auto;padding-left:20px;padding-right:20px;">
 
-<div style="padding-left:200px ;padding-right:550px;">
-    <div style="background:white;border-radius: 12px;white:220px;height:800px;overflow:auto;padding-left:20px;padding-right:20px;">
-    <form class="bs-example bs-example-form" role="form" action="/manager/passwordsearch" method="post">{% csrf_token %}
-
-<div class="input-group mb-3" style="padding-top:50px;">
-  <input type="text" class="form-control" placeholder="搜尋使用者帳號" aria-label="搜尋使用者" aria-describedby="button-addon2" name="username">
-  <div class="input-group-append" style="">
-    <button class="btn btn-outline-secondary" type="submit" id="button-addon2">搜尋</button>
-  </div>
-</div>
-
-	</form>
-
-    <table width="750" border="1" class="border" style="background:#ecf2f5; border-top-left-radius: 10px;font-family: PingFangTC-Regular, sans-serif;">
+    <table width="750" border="1"  class="border" style="background:#ecf2f5;font-family: PingFangTC-Regular, sans-serif;">
 　  <tr>
-　      <td style="font-size:20px;">帳號</td>
-　      <td style="font-size:20px">密碼</td>
-        <td style="font-size:20px">動作</td>
+　      <td width="" style="font-size:20px">帳號</td>
+        <td style="font-size:20px">問題回報</td>
+
 　  </tr>
+    
 
-    {% for data in data %}
+    
+    {% for post in post %}
 　  <tr>
-　      <td>{{data.name}}</td>
-　      <td>{{data.password}}</td>
-    <td>
-        <form action="" name="myFrm" method="post">{% csrf_token %}
-        <input type="button" value="修改" onclick="edit({{data.id}})" class="btn btn-outline-primary"/>
-        <input type="hidden" value="{{data.name}}" name="username" >
-        <!--<input type="button" value="delete" onclick="delete()"/>-->
-        </form>
-    </td>			
+　      <td>{{post.table1.name}}</td>
+　      <td>{{post.post}}</td>			
 				
 　  </tr>
     {% endfor %}
     	
 </table>
+
 </div>
 </div>
-</div>        
+</div>                
 <!--<form action="" name="pay" method="post">{% csrf_token %}
     
     <input type="button" value="edit" onclick="edit()"/>
@@ -136,10 +121,10 @@ main, nav {
 
 
 <script>
-function edit(num){
+function delete2(num){
     
-    document.myFrm[num-1].action="/manager/edit"; 
-    document.myFrm[num-1].submit(); 
+    document.delForm[num-1].action="/manager/delete"; 
+    document.delForm[num-1].submit(); 
 }
 </script>
 

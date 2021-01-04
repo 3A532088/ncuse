@@ -120,29 +120,31 @@ animation: wave 5s linear infinite;
 <div class="main-content">
     
     <div class="content-left">
-            <div class="player_block">
+            
+            <div class="player_block" style="background-color:black; background:linear-gradient(rgba(0,0,0,0.2),rgba(0,0,0,0.2));border-radius: 35px;height:350px;padding-left:15px;">
               <!--<form action="/search/" method="post">{% csrf_token %}-->
+              </br>
                     <div class="row">
                   <div class="col-md-12">
                   
-                    <div>選擇國家</div>
+                    <div style="color:black;font-size:20px;">選擇首都</div>
                     <label class="select" for="spacing">
-                         <select class="btn btn-secondary dropdown-toggle" name="country" id="country-list" >
+                         <select class="btn btn-secondary dropdown-toggle" name="country" id="country-list" style="background-color:white;color:black;" >
                          </select>
                          <i aria-hidden="true"></i> 
                     </label>
                   </div>
                   <div class="col-md-12">
-                      <div class="col-md-12">
-                      <div>選擇年月</div>
+                      <div class="xx">
+                      <div style="color:black;font-size:20px;">起始年月</div>
                         <label class="select">
-                            <select class="btn btn-secondary dropdown-toggle" name="year" id="year-list" onChange="changeCollege2(this.selectedIndex)">
+                            <select class="btn btn-secondary dropdown-toggle" name="year" id="year-list" style="background-color:white;color:black;" onChange="changeCollege2(this.selectedIndex)">
 
                             </select>
                             <i aria-hidden="true"></i>
                         </label>
                         <label class="select">
-                            <select class="btn btn-secondary dropdown-toggle" name="month"  id="month-list" onChange="changeCollegemon(this.selectedIndex)">
+                            <select class="btn btn-secondary dropdown-toggle" name="month"  id="month-list" style="background-color:white;color:black;" onChange="changeCollegemon(this.selectedIndex)">
                             </select>
                             <i aria-hidden="true"></i>
                         </label>
@@ -151,20 +153,20 @@ animation: wave 5s linear infinite;
                     </div>
                   </div>
 
-                  <div>至</div>
+                
                    <div class="row">
                   
                   <div class="col-md-12">
-                      <div class="col-md-12">
-                      <div>選擇年月</div>
+                      <div class="xx">
+                      <div style="color:black;font-size:20px;">結束年月</div>
                         <label class="select">
-                            <select class="btn btn-secondary dropdown-toggle" name="toyear" id="toyear-list">
+                            <select class="btn btn-secondary dropdown-toggle" style="background-color:white;color:black;" name="toyear" id="toyear-list">
 
                             </select>
                             <i aria-hidden="true"></i>
                         </label>
                         <label class="select">
-                            <select class="btn btn-secondary dropdown-toggle" name="tomonth"  id="tomonth-list">
+                            <select class="btn btn-secondary dropdown-toggle" style="background-color:white;color:black;" name="tomonth"  id="tomonth-list">
                             </select>
                             <i aria-hidden="true"></i>
                         </label>
@@ -172,21 +174,8 @@ animation: wave 5s linear infinite;
                       
                     </div>
                   </div>
-                
-                <button class="btn btn-primary" onclick="search()">送出</button>
-             <!--</form>
-             {% if country%}
-            <div>country:{{country}}</div>
-            {% endif %}
-            {% if year%}
-            <div>year:{{year}}</div>
-            <div>month:{{month}}</div>
-            {{sumrainfall}}
-            {{avgcountryrainfall}}
-            {% endif %}--> 
-
-
-            
+                </br>
+                <button class="btn btn-primary" onclick="search()" style="background-color:#3a91ec;font-size:20px;">送出</button>
 
         </div>
         
@@ -196,7 +185,7 @@ animation: wave 5s linear infinite;
 
 {% if ifpost%}
 <div class="content-right">
-<h1>{{ country }}{{ month }}月雨量(毫米):</h1>
+<h1 style="color:black;">{{ country }}{{ year }}年{{ month }}月雨量(毫米):</h1>
     
     <div class="watermain">
         <div class="wave">
@@ -206,7 +195,7 @@ animation: wave 5s linear infinite;
 </div>
 <div class="content-right">
 <div style="padding-left:0px;">
-<h1>各城市雨量:</h1>
+<h1 style="color:black;">各首都雨量:</h1>
 </div>
 
 <div class="bg"  style="padding-left:0px;">
@@ -216,7 +205,7 @@ animation: wave 5s linear infinite;
 
 {% else %}
 <div class="content-right">
-<h1>{{ country }}總雨量(毫米):<br>{{year}}年{{ month }}月~{{toyear}}年{{ tomonth }}月</h1>
+<h1 style="color:black;">{{ country }}總雨量(毫米):<br>{{year}}年{{ month }}月~{{toyear}}年{{ tomonth }}月</h1>
 <div></div>
 <div class="watermain">
         <div class="wave">
@@ -225,7 +214,7 @@ animation: wave 5s linear infinite;
 </div>
 <div class="content-right">
 <div style="padding-left:50px;">
-<h1>區間雨量:</h1>
+<h1 style="color:black;">區間雨量:</h1>
 </div>
 
 <div class="bg"  style="padding-left:50px;">
@@ -373,7 +362,7 @@ var myChart = new Chart.Line(ctx, {//Doughnut (環狀圖)Pie (圓餅圖)Line (�
 
 {% else %}
 <div class="content-right">
-    <h1>請搜尋欲查詢雨量國家年月</h1>
+    <h1 style="color:black;">請搜尋欲查詢雨量國家年月</h1>
 </div>
 {% endif%}
     <!--<div style="color:white">
@@ -387,7 +376,7 @@ var myChart = new Chart.Line(ctx, {//Doughnut (環狀圖)Pie (圓餅圖)Line (�
 
 <!--<div style="padding-left:150px;padding-right:150px;">-->
 <div style="float:right;padding-right:150px;">
-    <div><h1>討論區</h1></div>
+    <div><h1 style="color:black;">討論區</h1></div>
     <div style="height:500px;width:300px;overflow:auto;overflow-x:hidden;color:black;background:#ebf2f7; border: 1px dotted #b3b3b3;">
         <div class="reply_content" id="new_reply_547569" style="display: block;">
             {% for post in post %}
@@ -410,7 +399,7 @@ var myChart = new Chart.Line(ctx, {//Doughnut (環狀圖)Pie (圓餅圖)Line (�
 
     </div>
     <div style="padding-rigt:0px;">
-        <div style="color:white;">發表評論:</div>
+        <div style="color:black;">發表評論:</div>
         <textarea style="border-radius: 20px 20px 20px 20px;" id="commitpost" placeholder="輸入1~45字" name="comment"rows="3"cols="40"required></textarea></br>
         <button class="btn btn-primary" onclick="post()">送出</button>
     </div>
@@ -546,6 +535,7 @@ var myChart = new Chart.Line(ctx, {//Doughnut (環狀圖)Pie (圓餅圖)Line (�
  
             function post() { 
             var xxx = document.getElementById("commitpost").value;
+            var strings = ' '; 
             if(xxx.length>45){
                 alert("輸入請小於45字");return false;
             }else if(xxx == ""){
@@ -595,11 +585,11 @@ var myChart = new Chart.Line(ctx, {//Doughnut (環狀圖)Pie (圓餅圖)Line (�
 		//region: '155', // Western Europe
 		//region: 'world ',// Asia
 		region: '142',//TW#70edef
-        backgroundColor:'#a3b2fb'
+        backgroundColor:'#6ea7ef'
 	
 		};
 		
-		options['colors'] = ['#f7ecec', '#ffb1b1', '#fd7070', '#ff0000']; //orange colors
+		options['colors'] = ['#f3c9c4', '#f5afa5', '#f39283', '#f36e59']; //orange colors
 		options['dataMode'] = 'markers';
         var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
 
