@@ -22,6 +22,7 @@ from django.db.models import Count
 from django.urls import reverse
 
 
+# 沒用
 def hello_world(request):
     name = Table1.objects.all()
 
@@ -30,12 +31,34 @@ def hello_world(request):
     return render(request, 'hello.html', {'current_time': str(datetime.now())[0:19], 'aa': '1312223', 'name': name, })
 
 
+# 沒用
+def mainweb(request):
+    if request.session['is_login'] == True:
+        username = request.session['username']
+        data = TestRainfall.objects.all()
+
+        return render(request, "mainweb.html", {'username': username, 'data': data, })
+    else:
+        messages.success(request, '請先登入')
+        return redirect("/login",)
+
+# 沒用
+
+
 def base(request):
     return render(request, 'base.html', {
 
     })
 
 
+# 沒用
+def result(request):
+    return render(request, 'base.html', {
+
+    })
+
+
+# 首頁
 def home(request):
     if request.session['is_login'] == True:
         username = request.session['username']
@@ -70,6 +93,8 @@ def home(request):
     else:
         messages.success(request, '請先登入')
         return redirect("/login",)
+
+# 查詢功能
 
 
 def search(request):
@@ -143,6 +168,8 @@ def search(request):
         'allyear': allyear,
     })
 
+# 發佈貼文
+
 
 def post(request):
     if request.method == "POST":
@@ -188,22 +215,7 @@ def post(request):
 
         })
 
-
-def result(request):
-    return render(request, 'base.html', {
-
-    })
-
-
-def mainweb(request):
-    if request.session['is_login'] == True:
-        username = request.session['username']
-        data = TestRainfall.objects.all()
-
-        return render(request, "mainweb.html", {'username': username, 'data': data, })
-    else:
-        messages.success(request, '請先登入')
-        return redirect("/login",)
+# 會員中心
 
 
 def memberspace(request):
@@ -213,6 +225,8 @@ def memberspace(request):
     else:
         messages.success(request, '請先登入')
         return redirect("/login",)
+
+# 會員歷史貼文
 
 
 def memberpost(request):
@@ -227,6 +241,8 @@ def memberpost(request):
         messages.success(request, '請先登入')
         return redirect("/login",)
 
+# 會員回報問題
+
 
 def memberreport(request):
     if request.session['is_login'] == True:
@@ -239,6 +255,8 @@ def memberreport(request):
         messages.success(request, '請先登入')
         return redirect("/login",)
 
+# 會員刪除貼文
+
 
 def memberpostdel(request):
     if request.method == "POST":
@@ -249,6 +267,8 @@ def memberpostdel(request):
     # return redirect("/manager/post",)
     return redirect("/memberpost",)
 
+# 會員編輯貼文頁面
+
 
 def memberposteditpage(request):
     if request.method == "POST":
@@ -257,6 +277,8 @@ def memberposteditpage(request):
         getpost = Post.objects.get(id=postid)
         return render(request, "memberpostedit.html", {'username': username, 'post': getpost})
     return redirect("/memberpost",)
+
+# 會員編輯貼文
 
 
 def memberpostedit(request):
@@ -268,6 +290,8 @@ def memberpostedit(request):
         getpost.post = post
         getpost.save()
         return redirect("../memberpost/",)
+
+# 會員修改密碼
 
 
 def memberedit(request):
@@ -281,6 +305,8 @@ def memberedit(request):
         return redirect("../memberspace/",)
 # ----------------------------------------------------------------------------------------------------------------------------------
 # @cache_page(60 * 15)  # 60秒數，這裡指快取 15 分鐘，不直接寫900是為了提高可讀性
+
+# 會員註冊
 
 
 def signup(request):
@@ -305,17 +331,11 @@ def signup(request):
     # 第三個引數是後臺返回給瀏覽器的資料，定義data物件，返回一個字典，data會被index.html檔案引用
     return render(request, "signup.html", {"data": user_list})
 
-
+# 會員登入
 # @cache_page(60 * 15)
+
+
 def login(request):
-    '''
-    if request.session['is_login'] == True:
-        username = request.session['username']
-        allyear = []
-        for i in range(1990, 2026):
-            allyear.append(i)
-        return render(request, "home.html", {'username': username, 'allyear': allyear})
-    '''
     if request.method == "POST":
         username = request.POST.get("username", None)
         password = request.POST.get("password", None)
@@ -335,6 +355,8 @@ def login(request):
             return HttpResponse("使用者名稱不存在,請註冊")
     return render(request, "login.html",)
 
+# 會員登出
+
 
 def logout(request):
     request.session['is_login'] = False
@@ -343,6 +365,8 @@ def logout(request):
     return redirect("/login",)
     # return render(request, "login.html", {'messages': '成功登出'})
 # ------------------------------------------------------------------------------------------------------------------------
+
+# 管理員登入
 
 
 def managerlogin(request):
@@ -366,6 +390,8 @@ def managerlogin(request):
             return HttpResponse("使用者名稱不存在,請註冊")
     return render(request, "managerlogin.html",)
 
+# 管理員管理密碼
+
 
 def manager(request):
     if request.session['is_login'] == True:
@@ -376,6 +402,8 @@ def manager(request):
     else:
         messages.success(request, '請先登入')
         return redirect("/manager/login",)
+
+# 管理員管理密碼帳號查詢
 
 
 def managerpasswordsearch(request):
@@ -398,6 +426,8 @@ def managerpasswordsearch(request):
         messages.success(request, '請先登入')
         return redirect("/manager/login",)
 
+# 管理員管理貼文
+
 
 def managerpost(request):
     if request.session['is_login'] == True:
@@ -408,6 +438,8 @@ def managerpost(request):
     else:
         messages.success(request, '請先登入')
         return redirect("/manager/login",)
+
+# 管理員管理貼文帳號查詢
 
 
 def managerpostsearch(request):
@@ -431,6 +463,8 @@ def managerpostsearch(request):
         messages.success(request, '請先登入')
         return redirect("/manager/login",)
 
+# 管理員管理貼文刪除
+
 
 def delete(request):
     if request.method == "POST":
@@ -441,12 +475,16 @@ def delete(request):
     # return redirect("/manager/post",)
     return redirect("/manager/post",)
 
+# 管理員登出
+
 
 def managerlogout(request):
     request.session['is_login'] = False
     # messages.success(request, "登出")
     messages.success(request, '登出成功')
     return redirect("/manager/login",)
+
+# 管理員修改密碼頁面
 
 
 def managerpsedit(request):
@@ -455,6 +493,8 @@ def managerpsedit(request):
     return render(request, 'manageredit.html', {
         'username': username
     })
+
+# 管理員修改密碼
 
 
 def modify(request):
@@ -465,56 +505,3 @@ def modify(request):
         user.password = password
         user.save()
     return redirect("/manager/password",)
-
-
-'''
-@login_required(login_url="Login")
-def index(request):
-    return render(request, 'index.html')
-
-
-def sign_up(request):
-    form = RegisterForm()
-
-    # User.ID = 4
-    if request.method == "POST":
-        form = RegisterForm(request.POST)
-        if form.is_valid():
-            username = request.POST.get("username")
-            password = request.POST.get("password1")
-            User = Table1(name=username, password=password)
-            User.save()
-            # User.name = username
-            # User.password = password
-            # form.save()
-            return redirect('/login')  # 重新導向到登入畫面
-    context = {
-        'form': form
-    }
-    return render(request, 'register.html', context)
-
-
-def sign_in(request):
-    form = LoginForm()
-    # name1 = Table1.objects.all().values_list('name', 'password')
-    # Table1.objects.filter(id=3).update(name='test')
-    if request.method == "POST":
-        username = request.POST.get("username")
-        password = request.POST.get("password")
-        user = authenticate(request, username=username, password=password)
-        name = Table1.objects.filter(name=username)
-
-        if name is not None:
-            login(request, user)
-            return redirect('/')  # 重新導向到首頁
-    context = {
-        'form': form,
-        # 'name1': ('test1', 'pstest2') in name1
-    }
-    return render(request, 'login.html', context)
-
-
-def log_out(request):
-    logout(request)
-    return redirect('/login')  # 重新導向到登入畫面
-'''
