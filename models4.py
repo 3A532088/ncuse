@@ -140,16 +140,6 @@ class Post(models.Model):
         db_table = 'post'
 
 
-class Report(models.Model):
-    id = models.AutoField(db_column='ID', primary_key=True)  # Field name made lowercase.
-    post = models.CharField(max_length=200, blank=True, null=True)
-    table1 = models.ForeignKey('Table1', models.DO_NOTHING, db_column='table1_ID', blank=True, null=True)  # Field name made lowercase.
-
-    class Meta:
-        managed = False
-        db_table = 'report'
-
-
 class Table1(models.Model):
     id = models.AutoField(db_column='ID', primary_key=True)  # Field name made lowercase.
     name = models.CharField(max_length=45, blank=True, null=True)

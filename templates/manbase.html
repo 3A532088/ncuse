@@ -52,11 +52,11 @@
 					<!--<li class="active">-->
                     {% if request.session.is_login %}
                     <li class="">
-						<a href="{% url 'Mainweb' %}">{{request.session.username }}</a>
+						<a href="{% url 'ManagerPassword' %}">{{request.session.username }}</a>
 					</li>
                     <li class="">
-						<a href="{% url 'Managerlogout' %}">Logout</a>
-					</li>
+						<a href="{% url 'Managerlogout' %}">登出</a>
+					</li>-
                     {% else %}
                     <!--<li class="">
 						<a href="{% url 'Login' %}">Login</a>

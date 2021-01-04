@@ -17,6 +17,7 @@ from trips.models import Table1
 from trips.models import TestRainfall
 from trips.models import Manager
 from trips.models import Post
+from trips.models import Report
 from django.db.models import Count
 from django.urls import reverse
 
@@ -56,13 +57,16 @@ def home(request):
         alldata = TestRainfall.objects.all()
 
         list_time = TestRainfall.objects.all().values_list('country', 'year', 'month')
+        allyear = []
+        for i in range(1990, 2026):
+            allyear.append(i)
 
         if request.method == "POST":
             country = request.POST.get("country", None)
             year = request.POST.get("year", None)
             month = request.POST.get("month", None)
             return render(request, "home.html", {'username': username, })
-        return render(request, "home.html", {'username': username, })
+        return render(request, "home.html", {'username': username, 'allyear': allyear})
     else:
         messages.success(request, '請先登入')
         return redirect("/login",)
@@ -100,7 +104,11 @@ def search(request):
 
         getrainfall = TestRainfall.objects.filter(
             id__range=[rainfallid, torainfallid], country=country)
-        issearch = 1
+
+        allyear = []
+        for i in range(1990, 2026):
+            allyear.append(i)
+
         if year == toyear and month == tomonth:
             getpost = Post.objects.filter(rainfall=rainfallid)
             ifpost = 1
@@ -113,13 +121,14 @@ def search(request):
                 sumcountryrainfall += getcountrytrainfall[i].rainfall
             avgcountryrainfall = sumcountryrainfall/getcountrytrainfallsize
 
-            return render(request, 'home.html', {'waterrainfall': getrainfallid[0].rainfall, 'rainfall': getcountrytrainfall, 'post': getpost, 'ifpost': ifpost, 'country': country, 'year': year, 'month': month, 'toyear': toyear, 'tomonth': tomonth, })
+            return render(request, 'home.html', {'allyear': allyear, 'waterrainfall': getrainfallid[0].rainfall, 'rainfall': getcountrytrainfall, 'post': getpost, 'ifpost': ifpost, 'country': country, 'year': year, 'month': month, 'toyear': toyear, 'tomonth': tomonth, })
 
         getrainfallsize = getrainfall.count()
         sumrainfall = 0
         for i in range(0, getrainfallsize):
             sumrainfall += getrainfall[i].rainfall
         avgrainfall = sumrainfall/getrainfallsize
+        issearch = 1
 
     return render(request, 'home.html', {
         'rainfall': getrainfall,
@@ -128,9 +137,10 @@ def search(request):
         'month': month,
         'toyear': toyear,
         'tomonth': tomonth,
-        'sumrainfall': sumrainfall,
+        'sumrainfall':  round(sumrainfall, 1),
         'avgrainfall': round(avgrainfall, 1),
-        'issearch': issearch
+        'issearch': issearch,
+        'allyear': allyear,
     })
 
 
@@ -157,6 +167,13 @@ def post(request):
         getcountrytrainfall = TestRainfall.objects.filter(
             year=year, month=month)
 
+        getrainfallid = TestRainfall.objects.filter(
+            year=year, month=month, country=country)
+
+        allyear = []
+        for i in range(1990, 2026):
+            allyear.append(i)
+
         return render(request, 'home.html', {
             'post': getpost,
             'country': country,
@@ -166,6 +183,8 @@ def post(request):
             'tomonth': tomonth,
             'ifpost': ifpost,
             'rainfall': getcountrytrainfall,
+            'waterrainfall': getrainfallid[0].rainfall,
+            'allyear': allyear,
 
         })
 
@@ -194,7 +213,72 @@ def memberspace(request):
     else:
         messages.success(request, '請先登入')
         return redirect("/login",)
-# -------------------------------------------------------------------------------------------------------------------------
+
+
+def memberpost(request):
+    if request.session['is_login'] == True:
+        username = request.session['username']
+
+        getuser = Table1.objects.filter(name=username)
+        getuserid = getuser[0].id
+        getpost = Post.objects.filter(table1=getuserid)
+        return render(request, "memberpost.html", {'username': username, 'post': getpost})
+    else:
+        messages.success(request, '請先登入')
+        return redirect("/login",)
+
+
+def memberreport(request):
+    if request.session['is_login'] == True:
+        username = request.session['username']
+        getreport = request.POST.get("report", None)
+        userid = Table1.objects.get(name=username)
+        Report.objects.create(table1=userid, post=getreport)
+        return render(request, "memberreport.html", {'username': username, })
+    else:
+        messages.success(request, '請先登入')
+        return redirect("/login",)
+
+
+def memberpostdel(request):
+    if request.method == "POST":
+        username = request.POST.get("username", None)
+        postid = request.POST.get("postid", None)
+        post = Post.objects.get(id=postid)
+        post.delete()
+    # return redirect("/manager/post",)
+    return redirect("/memberpost",)
+
+
+def memberposteditpage(request):
+    if request.method == "POST":
+        username = request.POST.get("username", None)
+        postid = request.POST.get("postid", None)
+        getpost = Post.objects.get(id=postid)
+        return render(request, "memberpostedit.html", {'username': username, 'post': getpost})
+
+
+def memberpostedit(request):
+    if request.method == "POST":
+        username = request.session['username']
+        post = request.POST.get("post", None)
+        postid = request.POST.get("postid", None)
+        getpost = Post.objects.get(id=postid)
+        getpost.post = post
+        getpost.save()
+        return redirect("../memberpost/",)
+
+
+def memberedit(request):
+    if request.method == "POST":
+        username = request.session['username']
+
+        password = request.POST.get("password", None)
+        user = Table1.objects.get(name=username)
+        user.password = password
+        user.save()
+        return redirect("../memberspace/",)
+# ----------------------------------------------------------------------------------------------------------------------------------
 # @cache_page(60 * 15)  # 60秒數，這裡指快取 15 分鐘，不直接寫900是為了提高可讀性
 
 
@@ -223,11 +307,18 @@ def signup(request):
 
 # @cache_page(60 * 15)
 def login(request):
+    '''
+    if request.session['is_login'] == True:
+        username = request.session['username']
+        allyear = []
+        for i in range(1990, 2026):
+            allyear.append(i)
+        return render(request, "home.html", {'username': username, 'allyear': allyear})
+    '''
     if request.method == "POST":
         username = request.POST.get("username", None)
         password = request.POST.get("password", None)
         list_user_pwd = Table1.objects.all().values_list('name', 'password')
-
         if list_user_pwd:  # 取出資料庫表中username,userlist兩列生成一個列表
             if (username, password) in list_user_pwd:
                 request.session['is_login'] = True
@@ -278,9 +369,30 @@ def managerlogin(request):
 def manager(request):
     if request.session['is_login'] == True:
         username = request.session['username']
-        data = Table1.objects.all()
+        getuser = Table1.objects.all()
 
-        return render(request, "managerpassword.html", {'username': username, 'data': data, })
+        return render(request, "managerpassword.html", {'username': username, 'data': getuser, })
+    else:
+        messages.success(request, '請先登入')
+        return redirect("/manager/login",)
+
+
+def managerpasswordsearch(request):
+    if request.session['is_login'] == True:
+        username = request.session['username']
+        if request.method == "POST":
+            getpostuser = request.POST.get("username", None)
+            getuser = Table1.objects.filter(name=getpostuser)
+            try:
+                getuserid = getuser[0].id
+            except:
+                err = "查無此使用者"
+                return render(request, "managerpassword.html", {'username': username, 'err': err})
+
+            return render(request, "managerpassword.html", {'username': username, 'data': getuser, })
+        else:
+            getpost = Post.objects.all()
+            return render(request, "managerpassword.html", {'username': username, 'post': getpost, })
     else:
         messages.success(request, '請先登入')
         return redirect("/manager/login",)
@@ -292,6 +404,28 @@ def managerpost(request):
         getpost = Post.objects.all()
 
         return render(request, "managerpost.html", {'username': username, 'post': getpost, })
+    else:
+        messages.success(request, '請先登入')
+        return redirect("/manager/login",)
+
+
+def managerpostsearch(request):
+    if request.session['is_login'] == True:
+        username = request.session['username']
+
+        if request.method == "POST":
+            getpostuser = request.POST.get("username", None)
+            getuser = Table1.objects.filter(name=getpostuser)
+            try:
+                getuserid = getuser[0].id
+            except:
+                err = "查無此使用者"
+                return render(request, "managerpost.html", {'username': username, 'err': err})
+            getuserpost = Post.objects.filter(table1=getuserid)
+            return render(request, "managerpost.html", {'username': username, 'post': getuserpost, })
+        else:
+            getpost = Post.objects.all()
+            return render(request, "managerpost.html", {'username': username, 'post': getpost, })
     else:
         messages.success(request, '請先登入')
         return redirect("/manager/login",)

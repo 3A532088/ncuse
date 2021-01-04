@@ -1,5 +1,5 @@
-{% extends "manbase.html" %}
-{% block test2 %}
+{% extends "base.html" %}
+{% block test %}
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
 <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -60,45 +60,33 @@ main, nav {
 }
 
 </style>
- <div style="padding-left:350px;padding-top:50px;">
+
+<div style="padding-left:350px;padding-top:50px;">
  <nav class="side-bar f-left">
 <div data-v-4068fe3b="" class="nav-item-ctnr pointer none-select expanded"><!---->
 <div data-v-4068fe3b="" class="nav-item b-box p-relative ts-dot-2 expanded">
 <i data-v-4068fe3b="" class="svg-icon size-24 menu-personal-hover"></i>
 <div data-v-4068fe3b="" class="link-ctnr dp-i-block" style="font-size:20px;">
-<span data-v-4068fe3b="">管理中心</span><!---->
+<span data-v-4068fe3b="">會員中心</span><!---->
 </div>
 <i data-v-4068fe3b="" class="expand-icon dp-i-block p-absolute ts-dot-2">
 </i>
 </div>
 <div data-v-4068fe3b="" class="sub-pages-item-ctnr ts-dot-2 over-hidden" style="height: 360px;">
 <div data-v-4068fe3b="" class="sub-pages-item b-box ts-dot-2">
-<span> <a href="{% url 'ManagerPassword' %}">修改密碼</a>
-</span><!----><!----><!---->
+<span> <a href="{% url 'Memberspace' %}">修改密碼</a></span>
 </div>
 <div data-v-4068fe3b="" class="sub-pages-item b-box ts-dot-2">
-<span> <a href="{% url 'ManagerPost' %}">管理留言</a></span>
-<!----><!----><!---->
+<span> <a href="{% url 'Memberpost' %}">歷史貼文</a></span>
 </div>
-
-
+<div data-v-4068fe3b="" class="sub-pages-item b-box ts-dot-2">
+<span> <a href="{% url 'Memberreport' %}">回報問題</a></span>
+</div>
 </nav>
 <div style="padding-left:200px ;padding-right:550px">
-    <div style="background:white;border-radius: 12px;white:220px;height:780px;overflow:auto;padding-left:20px;padding-right:20px;">
-    <form class="bs-example bs-example-form" role="form" action="/manager/postsearch" method="post">{% csrf_token %}
-
-    <div class="input-group mb-3" style="padding-top:50px;" >
-      <input type="text" class="form-control" placeholder="搜尋使用者帳號" aria-label="搜尋使用者" aria-describedby="button-addon2" name="username">
-      <div class="input-group-append" style="">
-        <button class="btn btn-outline-secondary" type="submit" id="button-addon2">搜尋</button>
-      </div>
-</div>
-
-	</form>
-{% if err %}
-{{err}}
-{% else %}
-    <table width="750" border="1"  class="border" style="background:#ecf2f5;font-family: PingFangTC-Regular, sans-serif;">
+    <div style="background:white;border-radius: 12px;white:220px;height:780px;overflow:auto;padding-left:20px;padding-top:20px;padding-left:20px;padding-right:20px">
+    <div style="color:#23ade5 ;font-size:24px;border-bottom: 1px solid #e3e8ec;">歷史貼文</div></br>
+    <table width="750" border="1"  class="border" style="background:#ecf2f5;">
 　  <tr>
 　      <td width="" style="font-size:20px">帳號</td>
         <td style="font-size:20px">國家</td>
@@ -120,36 +108,54 @@ main, nav {
     <td>
         <form action="" name="delForm" method="post">{% csrf_token %}
         <!--post.id改get post表size -->
-        <input type="button" value="delete" onclick="delete2({{forloop.counter}})" class="btn btn-outline-danger"/>
+        <input type="button" value="修改" onclick="editpost({{forloop.counter}})" class="btn btn-outline-primary"/>
+        <!--<input type="button" value="刪除" onclick="delete2({{forloop.counter}})" class="btn btn-outline-danger"/>-->
+        <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#c{{forloop.counter}}">
+        刪除
+        </button>
+        
         <input type="hidden" value="{{post.id}}" name="postid" >
         <!--<input type="button" value="delete" onclick="delete()"/>-->
+        <div class="modal fade" id="c{{forloop.counter}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+         <div class="modal-dialog" role="document">
+           <div class="modal-content">
+             <div class="modal-header">
+               <h5 class="modal-title" id="exampleModalLabel">刪除貼文</h5>
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                 <span aria-hidden="true">&times;</span>
+               </button>
+             </div>
+             <div class="modal-body">
+               刪除貼文
+             </div>
+             <div class="modal-footer">
+               <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+               <button type="button" class="btn btn-outline-danger" onclick="delete2({{forloop.counter}})">確認刪除</button>
+             </div>
+           </div>
+         </div>
+        </div>
         </form>
     </td>			
 				
 　  </tr>
-    {% endfor %}
-    	
-</table>
-{% endif %}
-</div>
-</div>
-</div>                
-<!--<form action="" name="pay" method="post">{% csrf_token %}
-    
-    <input type="button" value="edit" onclick="edit()"/>
-    <input type="button" value="delete" onclick="delete()"/>
-						
-</form>-->
 
 
+{% endfor %}
+    </div>
+</div>
 <script>
 function delete2(num){
     
-    document.delForm[num-1].action="/manager/delete"; 
+    document.delForm[num-1].action="/memberpostdel/"; 
+    document.delForm[num-1].submit(); 
+}
+function editpost(num){
+    
+    document.delForm[num-1].action="/memberposteditpage/"; 
     document.delForm[num-1].submit(); 
 }
 </script>
-
 
 {% if messages %}
     <script>
@@ -159,4 +165,3 @@ function delete2(num){
     </script>
 {% endif %}
 {% endblock %}
-

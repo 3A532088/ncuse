@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block test %}
+<title>雨量查詢</title>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <style>
 .reply_content {
@@ -61,23 +62,21 @@
     width:200px;
     height:200px;
     border-radius: 50%;
-    
-
     transform: translate(-50%,-50%);
 }
 .watermain{
     {% if ifpost%}
-    padding-left: 230px;
+    padding-left: 280px;
     padding-top: 250px;
     {% else %}
-    padding-left: 330px;
+    padding-left: 280px;
     padding-top: 250px;
     {% endif %}
     
     float:left;
 }
 .wave{
-    background:darkturquoise;
+    background:#b3e7ff;
     overflow: hidden;
     font-size: 32px;
 }
@@ -96,9 +95,9 @@ animation: wave 5s linear infinite;
 }
 .wave::before{
     {% if ifpost%}
-    content: "{{waterrainfall}} mm";
+    content: "{{waterrainfall}}";
     {% else %}
-    content: "{{sumrainfall}} mm";
+    content: "{{sumrainfall}}";
     {% endif %}
     
     position: absolute;
@@ -128,7 +127,7 @@ animation: wave 5s linear infinite;
                   
                     <div>選擇國家</div>
                     <label class="select" for="spacing">
-                         <select class="btn btn-secondary dropdown-toggle" name="country" id="country-list" onchange="changeCollege(this.selectedIndex)" >
+                         <select class="btn btn-secondary dropdown-toggle" name="country" id="country-list" >
                          </select>
                          <i aria-hidden="true"></i> 
                     </label>
@@ -137,13 +136,13 @@ animation: wave 5s linear infinite;
                       <div class="col-md-12">
                       <div>選擇年月</div>
                         <label class="select">
-                            <select class="btn btn-secondary dropdown-toggle" name="year" id="year-list">
+                            <select class="btn btn-secondary dropdown-toggle" name="year" id="year-list" onChange="changeCollege2(this.selectedIndex)">
 
                             </select>
                             <i aria-hidden="true"></i>
                         </label>
                         <label class="select">
-                            <select class="btn btn-secondary dropdown-toggle" name="month"  id="month-list">
+                            <select class="btn btn-secondary dropdown-toggle" name="month"  id="month-list" onChange="changeCollegemon(this.selectedIndex)">
                             </select>
                             <i aria-hidden="true"></i>
                         </label>
@@ -197,7 +196,7 @@ animation: wave 5s linear infinite;
 
 {% if ifpost%}
 <div class="content-right">
-<h1>{{ country }}{{ month }}月雨量:</h1>
+<h1>{{ country }}{{ month }}月雨量(毫米):</h1>
     
     <div class="watermain">
         <div class="wave">
@@ -206,18 +205,18 @@ animation: wave 5s linear infinite;
     </div>
 </div>
 <div class="content-right">
-<div style="padding-left:100px;">
-<h1>各城市雨量比較:</h1>
+<div style="padding-left:0px;">
+<h1>各城市雨量:</h1>
 </div>
 
-<div class="bg"  style="padding-left:100px;">
+<div class="bg"  style="padding-left:0px;">
 
 <div style="width:300px;height:300px;border:3px #cccccc dashed;background-color:white;">
 <canvas id="myChart" width="100" height="100"></canvas>
 
 {% else %}
 <div class="content-right">
-<h1>{{ country }}{{ month }}~{{ tomonth }}月總雨量:</h1>
+<h1>{{ country }}總雨量(毫米):<br>{{year}}年{{ month }}月~{{toyear}}年{{ tomonth }}月</h1>
 <div></div>
 <div class="watermain">
         <div class="wave">
@@ -241,38 +240,28 @@ animation: wave 5s linear infinite;
 var ctx = document.getElementById('myChart').getContext('2d');
 var myChart = new Chart.Line(ctx, {//Doughnut (環狀圖)Pie (圓餅圖)Line (折線圖)Bar (柱狀圖)Radar (雷達圖)PolarArea (極地圖)
     //type: 'bar',
-    
+    {% if ifpost%}
     data: {
         //labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-        {% if ifpost%}
+        
         labels: [ {% for rainfall in rainfall %}'{{rainfall.country}}',{% endfor %}],
-        {% else %}
-        labels: [ {% for rainfall in rainfall %}{{rainfall.month}},{% endfor %}],
-        {% endif %}
+        
         datasets: [{
             label: '雨量',
             //data: [12, 19, 3, 5, 2, 3],
             data: [{% for rainfall in rainfall %}{{rainfall.rainfall}},{% endfor %}],
             backgroundColor: [
                 'rgba(39, 167, 236, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)',
-                'rgba(255, 159, 64, 0.2)',
+
             ],
             borderColor: [
                 'rgba(39, 167, 236, 0.8)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)',
-                'rgba(255, 159, 64, 1)' 
+
             ],
-            borderWidth: 1
-        }]
+            borderWidth: 1,
+            
+        },
+]
     },
     options: {
         scales: {
@@ -303,11 +292,85 @@ var myChart = new Chart.Line(ctx, {//Doughnut (環狀圖)Pie (圓餅圖)Line (�
             }]
         }
     }
+{% else %}
+        
+            data: {
+        //labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        
+        labels: [ {% for rainfall in rainfall %}{{rainfall.month}},{% endfor %}],
+        
+        datasets: [
+        
+        {
+            label: '歷史',
+            //data: [12, 19, 3, 5, 2, 3],
+            data: [{% for rainfall in rainfall %}{% if rainfall.year <= 2020 %}{{rainfall.rainfall}},{% endif %}{% endfor %}],
+            backgroundColor: [
+                'rgba(39, 167, 236, 0.2)',
+
+            ],
+            borderColor: [
+                'rgba(39, 167, 236, 0.8)',
+
+            ],
+            borderWidth: 1,
+            pointRadius:0,
+        }
+        ,
+        {
+            
+            label: '未來',
+            //data: [12, 19, 3, 5, 2, 3],
+            data: [{% for rainfall in rainfall %}{% if rainfall.year >= 2021 %}{{rainfall.rainfall}},{% else %},{% endif %}{% endfor %}],
+            backgroundColor: [
+                'rgba(150, 253, 158, 0.4)',
+
+            ],
+            borderColor: [
+                'rgba(150, 253, 158, 0.8)',
+
+            ],
+            borderWidth: 1,
+            pointRadius:0,
+        }
+]
+    },
+    options: {
+        scales: {
+           
+            yAxes: [{
+              scaleLabel: {
+              display: true,
+              labelString: '雨量',
+              fontColor:'black'
+            },
+                ticks: {
+                    beginAtZero: true
+                }
+            }],
+            xAxes: [{
+              scaleLabel: {
+              display: true,
+              {% if ifpost%}
+              labelString: '國家',
+              {% else %}
+              labelString: '月份',
+              {% endif %}
+              fontColor:'black'
+            },
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+        {% endif %}
 });
 </script>
 </div>
 </div>
 </div>
+
 {% else %}
 <div class="content-right">
     <h1>請搜尋欲查詢雨量國家年月</h1>
@@ -348,7 +411,7 @@ var myChart = new Chart.Line(ctx, {//Doughnut (環狀圖)Pie (圓餅圖)Line (�
     </div>
     <div style="padding-rigt:0px;">
         <div style="color:white;">發表評論:</div>
-        <textarea style="border-radius: 20px 20px 20px 20px;" name="comment"rows="3"cols="40"required></textarea></br>
+        <textarea style="border-radius: 20px 20px 20px 20px;" id="commitpost" placeholder="輸入1~45字" name="comment"rows="3"cols="40"required></textarea></br>
         <button class="btn btn-primary" onclick="post()">送出</button>
     </div>
 </div>
@@ -357,28 +420,42 @@ var myChart = new Chart.Line(ctx, {//Doughnut (環狀圖)Pie (圓餅圖)Line (�
 <div style="padding-left:490px">
     <div id="regions_div"  style="width: 650px; height: 400px;"></div>
 </div>
+
+{% endif %}
+{% if issearch %}
+</div>
+<!--
+<div style="padding-left:450px;">
+    
+    <div style="width: 800px; height: 400px; background:white;overflow:auto;" class="border">
+    <table border="1" style="width=100% ;font-size:24px;" class="border border-dark">
+        
+        <tr>
+            <th>{{country}}</th>
+            {% for rainfall in rainfall %}
+                <th>{{rainfall.month}}</th>
+            {% endfor %}
+        </tr>
+        <tr>
+        {% for rainfall in rainfall %}
+
+            <th>{{rainfall.rainfall}}</th>
+            
+         {% endfor %}
+        </tr
+    </table>
+    
+    
+   </div> 
+</div>-->
 {% endif %}
 </form>
 
 		<script type="text/javascript">
-			//var colleges=[{% for rainfallcountry in rainfallcountry %}"{{rainfallcountry.country}}",{% endfor %}];
-            //var colleges=[{% if country%}'{{country}}',{%endif%}'台灣台北','日本','印尼雅加達','馬來西亞吉隆坡','沙烏地阿拉伯利雅德','新加坡'];
-            var colleges=[{% if country%}'{{country}}',{%endif%}'台灣','日本','印尼雅加達','馬來西亞吉隆坡','沙烏地阿拉伯利雅德'];
+            var colleges=[{% if country%}'{{country}}',{%endif%}'台北','新加坡','雅加達','吉隆坡','利雅德'];
 			var collegeSelect=document.getElementById("country-list");
             
             var handyear=new Array();
-
-            
-            /*var tempyear=[{% for alldata in alldata %}{% ifequal alldata.country '日本' %} {{alldata.year}},{% endifequal%}{% endfor %}];
-            handyear[0]=tempyear[0];
-            var temp=0;
-            for(var i=0;i<tempyear.length-1;i++){
-                if(tempyear[i]!=tempyear[i+1]){
-                    temp++;
-                    handyear[temp]=tempyear[i+1];
-                    
-                }
-            }*/
 
 			var inner="";
 			for(var i=0;i<colleges.length;i++){
@@ -393,61 +470,72 @@ var myChart = new Chart.Line(ctx, {//Doughnut (環狀圖)Pie (圓餅圖)Line (�
 			var toyear=new Array();
             var month=new Array();
             var tomonth=new Array();
-            /*for(var i=0;i<colleges.length;i++){
-				year[i]=[{% for rainfallcountry in rainfallcountry %}"{{rainfallcountry.country}}",{% endfor %}];
-			}*/
-            year[0]=[{% if year%}'{{year}}',{%endif%}1998,1999,2000];
-            toyear[0]=[{% if toyear%}'{{toyear}}',{%endif%}1998,1999,2000];
-            year[1]=[1999,2000];
+
+            year[0]=[{% if year%}'{{year}}',{%endif%}{% for allyear in allyear %} {{ allyear }}, {% endfor %}];
+            toyear[0]=[{% if toyear%}'{{toyear}}',{%endif%}{% for allyear in allyear %} {{ allyear }}, {% endfor %}];
+            
             month[0]=[{% if month%}'{{month}}',{%endif%}1,2,3,4,5,6,7,8,9,10,11,12];
             tomonth[0]=[{% if tomonth%}'{{tomonth}}',{%endif%}1,2,3,4,5,6,7,8,9,10,11,12];
             month[1]=[1,2,3,4,5,6,7,8,9,10];
-			/*year[0]=[1998,1999];
-			year[1]=[1999];	
-			sectors[2]=['土木工程學系 ',' 水利工程與資源保育學系 ',' 都市計畫與空間資訊學系 ',' 運輸與物流學系 ',' 土地管理學系 ','景觀與遊憩碩士學位學程 ',' 專案管理碩士在職學位學程 ',' 建設碩士在職學位學程 ','土木水利工程與建設規劃博士學位學程 '];	
-			sectors[3]=['風險管理與保險學系 ',' 財務金融學系 ',' 財務工程與精算學士學位學程 ','金融碩士在職學位學程 ','金融博士學位學程 '];
-			sectors[4]=['建築專業學院學士班 ',' 建築學士學位學程 ',' 室內設計學士學位學程 ',' 室內設計進修學士班 ',' 創新設計學士學位學程 ',' 建築碩士學位學程 ',' 建築碩士在職學位學程','澳洲墨爾本皇家理工大學商學與創新雙學士學位學程 ','美國聖荷西州立大學商學大數據分析雙學士學位學程 ']
-			sectors[5]=['美國普渡大學電機資訊雙學士學位學程 ','西班牙薩拉戈薩大學物流供應鏈管理與創新創業雙碩士學位學程 ','國際經營管理碩士學位學程 '];
-			sectors[6]=['資訊工程學系 ',' 電機工程學系 ',' 電子工程學系 ',' 自動控制工程學系 ',' 通訊工程學系',' 資電不分系榮譽班 ','資訊電機工程碩士在職學位學程 ',' 產業研發碩士專班 ',' 生醫資訊暨生醫工程碩士學位學程 ',' 視光科技碩士在職學位學程 ','電機與通訊工程博士學位學程 ',' 智慧聯網產業博士學位學程'];
-			sectors[7]=['中國文學系 ',' 外國語文學系 ','歷史與文物研究所 ',' 公共事務與社會創新研究所 '];
-			sectors[8]=['應用數學系 ',' 環境工程與科學學系 ',' 材料科學與工程學系 ',' 光電學系 ','微積分教學中心 ',' 物理教學研究中心 '];
-			sectors[9]=['經營管理碩士在職學位學程 ',' 電子商務碩士在職專班 '];
-			sectors[10]=[];
-			sectors[11]=['通識教育中心 ',' 雲端學院 ','外語教學中心 ',' 國語文教學中心 ','全校國際生大一不分系學士班 '];*/
 
-            function changeCollege(index){
-				var Sinner="";
-                var toSinner="";
-                var mon="";
-                var tomon="";
-				for(var i=0;i<year[index].length;i++){
-					Sinner=Sinner+'<option value='+year[index][i]+'>'+year[index][i]+'</option>';
+            var Sinner="";
+            var mon="";
+            for(var i=0;i<year[0].length;i++){
+					Sinner=Sinner+'<option value='+year[0][i]+'>'+year[0][i]+'</option>';
 				}
-                for(var i=0;i<year[index].length;i++){
-					toSinner=toSinner+'<option value='+toyear[index][i]+'>'+toyear[index][i]+'</option>';
-				}
-
-
-
-				var sectorSelect=document.getElementById("year-list");
+            var sectorSelect=document.getElementById("year-list");
 				sectorSelect.innerHTML=Sinner;
+
+            for(var i=0;i<month[0].length;i++){
+					mon=mon+'<option value='+month[0][i]+'>'+month[0][i]+'</option>';
+				}
+                var monSelect=document.getElementById("month-list");
+				monSelect.innerHTML=mon;
+
+            function changeCollege2(index){
+                var toSinner="";
+                var tomon="";
+                var getmonth=document.getElementById("month-list");
+                var getmonthvalue=getmonth.options[getmonth.selectedIndex].value;
+
+                var getyear=document.getElementById("year-list");
+                var getyearvalue=getyear.options[getyear.selectedIndex].value;
+                
+                /*for(var i=0;i<(year[index].length);i++){
+                    year[1][i]=year[0][i];
+                }*/
+                
+                for(var i=0;i<(year[0].length)-index;i++){  
+				toSinner=toSinner+'<option value='+toyear[0][i+index]+'>'+toyear[0][i+index]+'</option>';
+
+                }
 
                 var tosectorSelect=document.getElementById("toyear-list");
 				tosectorSelect.innerHTML=toSinner;
                 
-
-                for(var i=0;i<month[index].length;i++){
-					mon=mon+'<option value='+month[index][i]+'>'+month[index][i]+'</option>';
-				}
-                var monSelect=document.getElementById("month-list");
-				monSelect.innerHTML=mon;
 				var tomonSelect=document.getElementById("tomonth-list");
 				tomonSelect.innerHTML=mon;
                 
 			}
-			changeCollege(document.getElementById("country-list").selectedIndex);
 
+			changeCollege2(document.getElementById("year-list").selectedIndex);
 
+            function changeCollegemon(index){
+                var tomon="";
+                var getyear=document.getElementById("year-list");
+                var getyearvalue=getyear.options[getyear.selectedIndex].value;
+                var gettoyear=document.getElementById("toyear-list");
+                var gettoyearvalue=gettoyear.options[gettoyear.selectedIndex].value;
+                if(gettoyearvalue == getyearvalue){
+                for(var i=0;i<(month[0].length)-index;i++){  
+				    tomon=tomon+'<option value='+month[0][i+index]+'>'+month[0][i+index]+'</option>';
+
+                }
+                var tomonSelect=document.getElementById("tomonth-list");
+				tomonSelect.innerHTML=tomon;
+                }
+
+            }
             function search(){ 
             //document.("表单的name值").action
             //document.("表单的name值").submit
@@ -457,9 +545,18 @@ var myChart = new Chart.Line(ctx, {//Doughnut (環狀圖)Pie (圓餅圖)Line (�
             } 
  
             function post() { 
+            var xxx = document.getElementById("commitpost").value;
+            if(xxx.length>45){
+                alert("輸入請小於45字");return false;
+            }else if(xxx == ""){
+                alert("請輸入留言");return false;
+            }
+            {
             document.commit.method="post";
             document.commit.action = "/post/"; 
             document.commit.submit(); 
+            }
+            
             }
 
 		</script>
@@ -476,13 +573,20 @@ var myChart = new Chart.Line(ctx, {//Doughnut (環狀圖)Pie (圓餅圖)Line (�
         var data = google.visualization.arrayToDataTable([
           ['Country', 'Popularity'],
           ['Germany', 0],
-          ['United States', 300],
-          ['Brazil', 400],
-          ['Canada', 500],
-          ['Taiwan', 600],
-		  ['Indonesia',300],
-		  ['Malaysia',500],
-          ['RU', 700]
+          {% for rainfall in rainfall %}
+            {% if  rainfall.country == "台北" %}
+                ['Taiwan', {{rainfall.rainfall}}],
+            {% elif rainfall.country == "雅加達"%}
+                ['Indonesia',{{rainfall.rainfall}}],
+            {% elif rainfall.country == "吉隆坡"%}
+                ['Malaysia',{{rainfall.rainfall}}],
+            {% elif rainfall.country == "利雅德"%}
+                ['Saudi Arabia',{{rainfall.rainfall}}],
+            {% elif rainfall.country == "新加坡"%}
+                ['Singapore',{{rainfall.rainfall}}],
+            {% endif %} 
+          {% endfor %}
+          
         ]);
 		
 
@@ -491,11 +595,11 @@ var myChart = new Chart.Line(ctx, {//Doughnut (環狀圖)Pie (圓餅圖)Line (�
 		//region: '155', // Western Europe
 		//region: 'world ',// Asia
 		region: '142',//TW#70edef
-        backgroundColor:'#90f5f7'
+        backgroundColor:'#a3b2fb'
 	
 		};
 		
-		options['colors'] = ['#f7ecec', '#f39090', '#f33838', '#ff0000']; //orange colors
+		options['colors'] = ['#f7ecec', '#ffb1b1', '#fd7070', '#ff0000']; //orange colors
 		options['dataMode'] = 'markers';
         var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
 

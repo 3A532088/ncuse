@@ -1,5 +1,5 @@
-{% extends "manbase.html" %}
-{% block test2 %}
+{% extends "base.html" %}
+{% block test %}
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
 <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -60,86 +60,69 @@ main, nav {
 }
 
 </style>
+
 <div style="padding-left:350px;padding-top:50px;">
  <nav class="side-bar f-left">
 <div data-v-4068fe3b="" class="nav-item-ctnr pointer none-select expanded"><!---->
 <div data-v-4068fe3b="" class="nav-item b-box p-relative ts-dot-2 expanded">
 <i data-v-4068fe3b="" class="svg-icon size-24 menu-personal-hover"></i>
 <div data-v-4068fe3b="" class="link-ctnr dp-i-block" style="font-size:20px;">
-<span data-v-4068fe3b="">管理中心</span><!---->
+<span data-v-4068fe3b="">會員中心</span><!---->
 </div>
 <i data-v-4068fe3b="" class="expand-icon dp-i-block p-absolute ts-dot-2">
 </i>
 </div>
 <div data-v-4068fe3b="" class="sub-pages-item-ctnr ts-dot-2 over-hidden" style="height: 360px;">
 <div data-v-4068fe3b="" class="sub-pages-item b-box ts-dot-2">
-<span> <a href="{% url 'ManagerPassword' %}">修改密碼</a>
-</span><!----><!----><!---->
+<span> <a href="{% url 'Memberspace' %}">修改密碼</a></span>
 </div>
 <div data-v-4068fe3b="" class="sub-pages-item b-box ts-dot-2">
-<span> <a href="{% url 'ManagerPost' %}">管理留言</a></span>
-<!----><!----><!---->
+<span> <a href="{% url 'Memberpost' %}">歷史貼文</a></span>
 </div>
-
-
+<div data-v-4068fe3b="" class="sub-pages-item b-box ts-dot-2">
+<span> <a href="{% url 'Memberreport' %}">回報問題</a></span>
+</div>
 </nav>
+<div style="padding-left:200px ;padding-right:550px">
+    <div style="background:white;border-radius: 12px;white:220px;height:450px;padding-top:20px;padding-left:20px;padding-right:20px">
 
-<div style="padding-left:200px ;padding-right:550px;">
-    <div style="background:white;border-radius: 12px;white:220px;height:800px;">
-    <form class="bs-example bs-example-form" role="form" action="/manager/passwordsearch" method="post">{% csrf_token %}
+        <div style="color:#23ade5 ;font-size:24px;border-bottom: 1px solid #e3e8ec;">修改貼文</div></br>
+    <div style="font-size:20px;padding-left:30px;color:gray;">
+    <form action="" method="" >{% csrf_token %}
+        <div style="padding:5px;">貼文:</br>{{post.post}}</div>
+            <input  type="hidden" name="username" value="{{username}}"><input  type="hidden" name="postid" value="{{post.id}}">
+            <div style="padding:5px;">
+            修改貼文:
+            <div>
+            <textarea class="border" style="border-radius:10px;" id="commitpost" type="text" name="post" rows="4" cols="50">
+            </textarea>
+            </div>
+            </div>
+        <div style="padding:5px;">
+        <button type="submit" class="btn btn-primary" name="login_btn" value="Submit" onclick="editpost()">確認</button>
+        <input type ="button" class="btn btn-secondary" onclick="javascript:location.href='{% url 'Memberpost' %}'" value="返回"></input>
+        
+            
+        
+        </div>
 
-<div class="input-group mb-3" style="padding-top:50px;">
-  <input type="text" class="form-control" placeholder="搜尋使用者帳號" aria-label="搜尋使用者" aria-describedby="button-addon2" name="username">
-  <div class="input-group-append" style="">
-    <button class="btn btn-outline-secondary" type="submit" id="button-addon2">搜尋</button>
-  </div>
+    </form>
 </div>
-
-	</form>
-
-    <table width="800" border="1" class="border" style="background:#ecf2f5; border-top-left-radius: 10px;font-family: PingFangTC-Regular, sans-serif;">
-　  <tr>
-　      <td style="font-size:20px;">帳號</td>
-　      <td style="font-size:20px">密碼</td>
-        <td style="font-size:20px">動作</td>
-　  </tr>
-
-    {% for data in data %}
-　  <tr>
-　      <td>{{data.name}}</td>
-　      <td>{{data.password}}</td>
-    <td>
-        <form action="" name="myFrm" method="post">{% csrf_token %}
-        <input type="button" value="修改" onclick="edit({{data.id}})" class="btn btn-outline-primary"/>
-        <input type="hidden" value="{{data.name}}" name="username" >
-        <!--<input type="button" value="delete" onclick="delete()"/>-->
-        </form>
-    </td>			
-				
-　  </tr>
-    {% endfor %}
-    	
-</table>
+    </div>
 </div>
-</div>
-</div>        
-<!--<form action="" name="pay" method="post">{% csrf_token %}
-    
-    <input type="button" value="edit" onclick="edit()"/>
-    <input type="button" value="delete" onclick="delete()"/>
-						
-</form>-->
-
-
 <script>
-function edit(num){
-    
-    document.myFrm[num-1].action="/manager/edit"; 
-    document.myFrm[num-1].submit(); 
-}
-</script>
-
-
+            function editpost() { 
+            var xxx = document.getElementById("commitpost").value;
+            if(xxx.length>45){
+                alert("輸入請小於45字");
+                return false;
+            }else{
+            document.commit.method="post";
+            document.commit.action = "/memberpostedit/"; 
+            document.commit.submit(); 
+            }
+            }
+        </script>
 {% if messages %}
     <script>
         {% for msg in messages %}
@@ -148,4 +131,3 @@ function edit(num){
     </script>
 {% endif %}
 {% endblock %}
-

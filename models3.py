@@ -140,16 +140,6 @@ class Post(models.Model):
         db_table = 'post'
 
 
-class Report(models.Model):
-    id = models.AutoField(db_column='ID', primary_key=True)  # Field name made lowercase.
-    post = models.CharField(max_length=200, blank=True, null=True)
-    table1 = models.ForeignKey('Table1', models.DO_NOTHING, db_column='table1_ID', blank=True, null=True)  # Field name made lowercase.
-
-    class Meta:
-        managed = False
-        db_table = 'report'
-
-
 class Table1(models.Model):
     id = models.AutoField(db_column='ID', primary_key=True)  # Field name made lowercase.
     name = models.CharField(max_length=45, blank=True, null=True)
@@ -166,72 +156,12 @@ class TestRainfall(models.Model):
     id = models.AutoField(db_column='ID', primary_key=True)  # Field name made lowercase.
     year = models.IntegerField(blank=True, null=True)
     month = models.IntegerField(blank=True, null=True)
-    rainfall = models.FloatField(blank=True, null=True)
+    rainfall = models.IntegerField(blank=True, null=True)
     country = models.CharField(max_length=20, blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'test_rainfall'
-
-
-class Tmp(models.Model):
-    id = models.IntegerField(primary_key=True)
-    year = models.IntegerField(blank=True, null=True)
-    month = models.IntegerField(blank=True, null=True)
-    rainfall = models.FloatField(blank=True, null=True)
-    country = models.TextField(blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'tmp'
-
-
-class Tmp2(models.Model):
-    id = models.IntegerField(primary_key=True)
-    year = models.IntegerField(db_column='Year', blank=True, null=True)  # Field name made lowercase.
-    month = models.IntegerField(db_column='Month', blank=True, null=True)  # Field name made lowercase.
-    rainfall = models.FloatField(db_column='Rainfall', blank=True, null=True)  # Field name made lowercase.
-    location = models.TextField(db_column='Location', blank=True, null=True)  # Field name made lowercase.
-
-    class Meta:
-        managed = False
-        db_table = 'tmp2'
-
-
-class Tmp3(models.Model):
-    id = models.IntegerField(primary_key=True)
-    year = models.IntegerField(db_column='Year', blank=True, null=True)  # Field name made lowercase.
-    month = models.IntegerField(db_column='Month', blank=True, null=True)  # Field name made lowercase.
-    rainfall = models.FloatField(db_column='Rainfall', blank=True, null=True)  # Field name made lowercase.
-    location = models.TextField(db_column='Location', blank=True, null=True)  # Field name made lowercase.
-
-    class Meta:
-        managed = False
-        db_table = 'tmp3'
-
-
-class Tmp4(models.Model):
-    id = models.IntegerField(primary_key=True)
-    year = models.IntegerField(db_column='Year', blank=True, null=True)  # Field name made lowercase.
-    month = models.IntegerField(db_column='Month', blank=True, null=True)  # Field name made lowercase.
-    rainfall = models.FloatField(db_column='Rainfall', blank=True, null=True)  # Field name made lowercase.
-    location = models.TextField(db_column='Location', blank=True, null=True)  # Field name made lowercase.
-
-    class Meta:
-        managed = False
-        db_table = 'tmp4'
-
-
-class Tmp5(models.Model):
-    id = models.IntegerField(primary_key=True)
-    year = models.IntegerField(db_column='Year', blank=True, null=True)  # Field name made lowercase.
-    month = models.IntegerField(db_column='Month', blank=True, null=True)  # Field name made lowercase.
-    rainfall = models.FloatField(db_column='Rainfall', blank=True, null=True)  # Field name made lowercase.
-    location = models.TextField(db_column='Location', blank=True, null=True)  # Field name made lowercase.
-
-    class Meta:
-        managed = False
-        db_table = 'tmp5'
 
 
 class TripsPost(models.Model):

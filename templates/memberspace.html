@@ -1,16 +1,136 @@
 {% extends "base.html" %}
-{% block test2 %}
+{% block test %}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<style>
+.side-bar {
+    padding: 16px 0;
+    width: 150px;
+    font-size: 14px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-sizing: border-box;
+    border: 1px solid #e9eaec;
+}   
+.f-left {
+    float: left;
+}
+main, nav {
+    display: block;
+}
 
+.nav-item-ctnr[data-v-4068fe3b] {
+    position: relative;
+}
+.no-select, .none-select {
+    user-select: none;
+}
+.pointer {
+    cursor: pointer;
+}
+.nav-item-ctnr.expanded .nav-item[data-v-4068fe3b] {
+    color: #23ade5;
+    border-bottom: 1px solid #e3e8ec;
+}
+.nav-item[data-v-4068fe3b] {
+    height: 56px;
+    padding-left: 34px;
+    line-height: 56px;
+    color: #333;
+    font-size: 14px;
+}
+.ts-dot-2 {
+    transition: all cubic-bezier(0.22, 0.58, 0.12, 0.98) 0.2s;
+}
+.p-relative {
+    position: relative;
+}
+.nav-item-ctnr.expanded .sub-pages-item-ctnr[data-v-4068fe3b] {
+    border-bottom: 1px solid #e3e8ec;
+}
+.over-hidden {
+    overflow: hidden;
+}
+.sub-pages-item[data-v-4068fe3b] {
+    font-size: 16px;
+    height: 40px;
+    padding-left: 37px;
+    line-height: 40px;
+}
 
-        
+</style>
 
+<div style="padding-left:350px;padding-top:50px;">
+ <nav class="side-bar f-left">
+<div data-v-4068fe3b="" class="nav-item-ctnr pointer none-select expanded"><!---->
+<div data-v-4068fe3b="" class="nav-item b-box p-relative ts-dot-2 expanded">
+<i data-v-4068fe3b="" class="svg-icon size-24 menu-personal-hover"></i>
+<div data-v-4068fe3b="" class="link-ctnr dp-i-block" style="font-size:20px;">
+<span data-v-4068fe3b="">會員中心</span><!---->
+</div>
+<i data-v-4068fe3b="" class="expand-icon dp-i-block p-absolute ts-dot-2">
+</i>
+</div>
+<div data-v-4068fe3b="" class="sub-pages-item-ctnr ts-dot-2 over-hidden" style="height: 360px;">
+<div data-v-4068fe3b="" class="sub-pages-item b-box ts-dot-2">
+<span> <a href="{% url 'Memberspace' %}">修改密碼</a></span>
+</div>
+<div data-v-4068fe3b="" class="sub-pages-item b-box ts-dot-2">
+<span> <a href="{% url 'Memberpost' %}">歷史貼文</a></span>
+</div>
+<div data-v-4068fe3b="" class="sub-pages-item b-box ts-dot-2">
+<span> <a href="{% url 'Memberreport' %}">回報問題</a></span>
+</div>
+</nav>
+<div style="padding-left:200px ;padding-right:550px">
+    <div style="background:white;border-radius: 12px;white:220px;height:450px;padding-top:20px;padding-left:20px;padding-right:20px">
 
+        <div style="color:#23ade5 ;font-size:24px;border-bottom: 1px solid #e3e8ec;">使用者信息</div></br>
+    <div style="font-size:20px;padding-left:30px;color:gray;">
+    <form action="" method="" name="commit" >{% csrf_token %}
+        <div style="padding:5px;">使用者:{{username}}</div>
+            <input  type="hidden" name="username" value="{{username}}">
+            <div style="padding:5px;">
+            修改密碼:
+            <input class="border" style="border-radius:10px;" type="text" name="password" ></div>
+        <div style="padding:5px;">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#edt">確認</button>
+        <!--<input type ="button" class="btn btn-secondary" onclick="javascript:location.href='{% url 'Memberspace' %}'" value="返回"></input>-->
+        </div>
 
+    </form>
+</div>
+    </div>
+</div>
+
+        <div class="modal fade" id="edt" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+         <div class="modal-dialog" role="document">
+           <div class="modal-content">
+             <div class="modal-header">
+               <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                 <span aria-hidden="true">&times;</span>
+               </button>
+             </div>
+             <div class="modal-body">
+               ...
+             </div>
+             <div class="modal-footer">
+               <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+               <button type="submit" class="btn btn-primary" onclick="editpassword2()">確認修改</button>
+             </div>
+           </div>
+         </div>
+        </div>
 <script>
 
+function editpassword2(){
+        document.commit.method="post";
+        document.commit.action="/memberedit/"; 
+        document.commit.submit(); 
+}
 </script>
-
-
 {% if messages %}
     <script>
         {% for msg in messages %}

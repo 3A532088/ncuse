@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 #from trips.views import hello_world, home, index, sign_up, sign_in, log_out
-from trips.views import hello_world, memberspace, home, login, signup, mainweb, logout, base, manager, managerlogin, managerpsedit, modify, delete, managerpost, managerlogout, result, post, search
+from trips.views import memberreport, memberpostedit, memberposteditpage, memberpostdel, hello_world, memberpost, memberedit, managerpasswordsearch, managerpostsearch, memberspace, home, login, signup, mainweb, logout, base, manager, managerlogin, managerpsedit, modify, delete, managerpost, managerlogout, result, post, search
 from django.conf.urls import include, url
 from trips import views
 
@@ -33,10 +33,19 @@ urlpatterns = [
     path('search/', search, name='Search'),
     path('result/', result, name='Result'),
     path('memberspace/', memberspace, name='Memberspace'),
+    path('memberpost/', memberpost, name='Memberpost'),
+    path('memberreport/', memberreport, name='Memberreport'),
+    path('memberedit/', memberedit, name='Memberedit'),
+    path('memberpostdel/', memberpostdel, name='Memberpostdel'),
+    path('memberposteditpage/', memberposteditpage, name='Memberposteditpage'),
+    path('memberpostedit/', memberpostedit, name='Memberpostedit'),
     path('manager/login', managerlogin, name='Managerlogin'),
     path('manager/logout', managerlogout, name='Managerlogout'),
     path('manager/password', manager, name='ManagerPassword'),
+    path('manager/passwordsearch', managerpasswordsearch,
+         name='ManagerPasswordSearch'),
     path('manager/post', managerpost, name='ManagerPost'),
+    path('manager/postsearch', managerpostsearch, name='ManagerPostSearch'),
     path('manager/delete', delete, name='Delete'),
 
     path('manager/edit', managerpsedit, name='Edit'),

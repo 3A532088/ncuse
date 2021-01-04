@@ -3,7 +3,7 @@
 <!-- Head -->
 
 <head>
-    <title>Key Login Form Flat Responsive Widget Template :: W3layouts</title>
+    
     <!-- Meta-Tags -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
@@ -65,19 +65,20 @@
 
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                         <a class="dropdown-item" href="{% url 'Memberspace' %}">修改會員密碼</a>
+                        <a class="dropdown-item" href="{% url 'Memberpost' %}">歷史貼文</a>
                         </div>
                     
 					</li>
                     <li class="">
-						<a href="{% url 'Logout' %}">Logout</a>
+						<a href="{% url 'Logout' %}">登出</a>
                         
 					</li>
                     {% else %}
                     <li class="">
-						<a href="{% url 'Login' %}">Login</a>
+						<a href="{% url 'Login' %}">登入</a>
 					</li>
 					<li class="">
-						<a href="{% url 'Signup' %}">Signup</a>
+						<a href="{% url 'Signup' %}">註冊</a>
 					</li>					
                     {% endif %}
 				</ul>
