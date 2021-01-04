@@ -88,7 +88,7 @@ main, nav {
 
         <div style="color:#23ade5 ;font-size:24px;border-bottom: 1px solid #e3e8ec;">修改貼文</div></br>
     <div style="font-size:20px;padding-left:30px;color:gray;">
-    <form action="" method="" >{% csrf_token %}
+    <form action="" method="" name="commit">{% csrf_token %}
         <div style="padding:5px;">貼文:</br>{{post.post}}</div>
             <input  type="hidden" name="username" value="{{username}}"><input  type="hidden" name="postid" value="{{post.id}}">
             <div style="padding:5px;">
@@ -99,7 +99,7 @@ main, nav {
             </div>
             </div>
         <div style="padding:5px;">
-        <button type="submit" class="btn btn-primary" name="login_btn" value="Submit" onclick="editpost()">確認</button>
+        <button type="submit" class="btn btn-primary" name="login_btn" onclick="editpost()">確認</button>
         <input type ="button" class="btn btn-secondary" onclick="javascript:location.href='{% url 'Memberpost' %}'" value="返回"></input>
         
             

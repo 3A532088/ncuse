@@ -79,6 +79,7 @@
     var i = /[0-9]+/;
     var str = /[A-Za-z]/;
     var reg = /[~#^$@%&!?%*]/gi;
+    var rex = /[^\u4e00-\u9fa5]/;
     var check=1;
     if(!str.test(s)){
      alert("帳號必須包含英文字母");
@@ -95,6 +96,26 @@
     alert("不能包含特殊字元");
     check=0;
   }
+    else if(rex.test(password.trim())){
+    alert("不能包含特殊字元");
+    check=0;
+  }
+     else if(reg.test(password.trim())){
+    alert("不能包含特殊字元");
+    check=0;
+  }
+     else if(!str.test(password)){
+     alert("密碼必須包含英文字母");
+    check=0;
+  }
+
+  else if(!i.test(password)){
+    alert("密碼必須包含數字");
+     check=0;
+
+  }
+
+ 
 
   else if(s.length<5 || s.length>10){
     alert("帳號長度需介於5~10字");

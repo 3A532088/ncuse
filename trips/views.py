@@ -256,6 +256,7 @@ def memberposteditpage(request):
         postid = request.POST.get("postid", None)
         getpost = Post.objects.get(id=postid)
         return render(request, "memberpostedit.html", {'username': username, 'post': getpost})
+    return redirect("/memberpost",)
 
 
 def memberpostedit(request):
