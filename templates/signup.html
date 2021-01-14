@@ -54,19 +54,19 @@
 					<div class="field-group">
 						<span class="fa fa-user" style="font-size:54px" aria-hidden="true" ></span>
 						<div class="wthree-field">
-							<input type="text" placeholder="Username(5~10英文數字)" name="username" id ="username" required autocomplete="off"><!-- autocomplete="off" 取消自動帶出的輸入記錄-->
+							<input type="text" placeholder="Username(5~10英文數字)" name="username" style="color:white;font-size: 1.2em;" id ="username" required autocomplete="off"><!-- autocomplete="off" 取消自動帶出的輸入記錄-->
 						</div>
 					</div>
 					<div class="field-group">
 						<span class="fa fa-lock" style="font-size:56px" aria-hidden="true"></span>
 						<div class="wthree-field">
-							<input type="password" id="password" placeholder="Password(5~15英文數字)" name="password">
+							<input type="password" id="password" style="color:white;font-size: 1.2em;" placeholder="Password(5~10英文數字)" name="password">
 						</div>
 					</div>
                     <div class="field-group">
 						<span class="fa fa-lock" style="font-size:56px" aria-hidden="true"></span>
 						<div class="wthree-field">
-							<input type="password" id="checkpassword" placeholder="CheckPassword" name="password">
+							<input type="password" id="checkpassword" style="color:white;font-size: 1.2em;" placeholder="CheckPassword" name="password">
 						</div>
 					</div>
 
@@ -89,7 +89,11 @@
     var rex = /[\u4E00-\u9FA5]{1,2}$/;
     var check=1;
     if(rex.test(s)){
-    alert("c不能包含特殊字元");
+    alert("不能包含特殊字元");
+    check=0;
+  }
+  else if(reg.test(s.trim())){
+    alert("不能包含特殊字元");
     check=0;
   }
     else if(!str.test(s)){
@@ -103,10 +107,7 @@
 
   }
 
-    else if(reg.test(s.trim())){
-    alert("不能包含特殊字元");
-    check=0;
-  }
+    
    else if(rex.test(password)){
     alert("m不能包含特殊字元");
     check=0;
@@ -116,7 +117,7 @@
     check=0;
   }
      else if(!str.test(password)){
-     alert("帳號必須包含英文字母");
+     alert("密碼必須包含英文");
     check=0;
   }
 
@@ -132,12 +133,12 @@
     alert("帳號長度需介於5~10字");
      check=0;
   }
-  else if(password.length<5 || password.length>15){
+  else if(password.length<5 || password.length>10){
     alert("密碼長度需介於5~10字");
     check=0;
   }
   else if( password != checkpassword){
-    alert("確認密碼是否相同");
+    alert("密碼輸入不同");
     check=0;
   }
   else{

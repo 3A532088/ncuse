@@ -1,5 +1,6 @@
 {% extends "manbase.html" %}
 {% block test2 %}
+<title>後臺管理</title>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
 <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -59,6 +60,12 @@ main, nav {
     line-height: 40px;
 }
 
+.test{
+    position:relative;
+    top:0px;
+    
+}
+
 </style>
  <div style="padding-left:350px;padding-top:50px;">
  <nav class="side-bar f-left">
@@ -87,22 +94,27 @@ main, nav {
 
 
 </nav>
-<div style="padding-left:200px ;padding-right:550px">
+</div>
+
+<div style="padding-left:200px ;width:1500px;">
     <div style="background:white;border-radius: 12px;white:220px;height:780px;overflow:auto;padding-left:20px;padding-right:20px;">
     <form class="bs-example bs-example-form" role="form" action="/manager/postsearch" method="post">{% csrf_token %}
 
     <div class="input-group mb-3" style="padding-top:50px;" >
       <input type="text" class="form-control" placeholder="搜尋使用者帳號" aria-label="搜尋使用者" aria-describedby="button-addon2" name="username">
-      <div class="input-group-append" style="">
+      <div class=”clearfix hidden-xs”>
         <button class="btn btn-outline-secondary" type="submit" id="button-addon2">搜尋</button>
-      </div>
-</div>
+       </div>
+      
+      
+    
 
 	</form>
 {% if err %}
 {{err}}
 {% else %}
-    <table width="750" border="1"  class="border" style="background:#ecf2f5;font-family: PingFangTC-Regular, sans-serif;">
+    <span class='test'>
+    <table   width="750" border="1"  class="border" style="background:#ecf2f5;font-family: PingFangTC-Regular, sans-serif;">
 　  <tr>
 　      <td width="" style="font-size:20px">帳號</td>
         <td style="font-size:20px">首都</td>
@@ -111,6 +123,7 @@ main, nav {
 　      <td style="font-size:20px">留言</td>
         <td style="font-size:20px">動作</td>
 　  </tr>
+    </span>
     
 
     
@@ -136,8 +149,10 @@ main, nav {
 </table>
 {% endif %}
 </div>
+</div></div> 
 </div>
-</div>                
+</div> 
+               
 <!--<form action="" name="pay" method="post">{% csrf_token %}
     
     <input type="button" value="edit" onclick="edit()"/>

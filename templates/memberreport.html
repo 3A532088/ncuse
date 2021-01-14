@@ -6,7 +6,7 @@
 <style>
 .side-bar {
     padding: 16px 0;
-    width: 150px;
+    width: 180px;
     font-size: 14px;
     background-color: #fff;
     border-radius: 12px;
@@ -35,7 +35,8 @@ main, nav {
 }
 .nav-item[data-v-4068fe3b] {
     height: 56px;
-    padding-left: 34px;
+    padding-left: 29px;
+    padding-right: 29px;
     line-height: 56px;
     color: #333;
     font-size: 14px;
@@ -55,45 +56,47 @@ main, nav {
 .sub-pages-item[data-v-4068fe3b] {
     font-size: 16px;
     height: 40px;
-    padding-left: 37px;
+    padding-left: 40px;
     line-height: 40px;
 }
+
 
 </style>
 
 <div style="padding-left:350px;padding-top:50px;">
- <nav class="side-bar f-left">
+ <nav class="side-bar f-left" style="background-color:black; background:linear-gradient(rgba(0,0,0,0.2),rgba(0,0,0,0.2));border-radius: 35px;">
 <div data-v-4068fe3b="" class="nav-item-ctnr pointer none-select expanded"><!---->
 <div data-v-4068fe3b="" class="nav-item b-box p-relative ts-dot-2 expanded">
 <i data-v-4068fe3b="" class="svg-icon size-24 menu-personal-hover"></i>
 <div data-v-4068fe3b="" class="link-ctnr dp-i-block" style="font-size:20px;">
-<span data-v-4068fe3b="">會員中心</span><!---->
+<span data-v-4068fe3b="" style="color:white;font-size:30px;font-weight:bold;">會員中心</span><!---->
 </div>
 <i data-v-4068fe3b="" class="expand-icon dp-i-block p-absolute ts-dot-2">
 </i>
 </div>
-<div data-v-4068fe3b="" class="sub-pages-item-ctnr ts-dot-2 over-hidden" style="height: 360px;">
+<div data-v-4068fe3b="" class="sub-pages-item-ctnr ts-dot-2 over-hidden" style="height: 360px;padding-top:16px;">
 <div data-v-4068fe3b="" class="sub-pages-item b-box ts-dot-2">
-<span> <a href="{% url 'Memberspace' %}">修改密碼</a></span>
+<span > <a href="{% url 'Memberspace' %}" style="color:#3a91ec;font-size: 24px;"  >修改密碼</a></span>
 </div>
 <div data-v-4068fe3b="" class="sub-pages-item b-box ts-dot-2">
-<span> <a href="{% url 'Memberpost' %}">歷史貼文</a></span>
+<span> <a href="{% url 'Memberpost' %}" style="color:#3a91ec;font-size: 24px;" >歷史留言</a></span>
 </div>
 <div data-v-4068fe3b="" class="sub-pages-item b-box ts-dot-2">
-<span> <a href="{% url 'Memberreport' %}">問題回報</a></span>
+<span> <a href="{% url 'Memberreport' %}" style="color:#3a91ec;font-size: 24px;">問題回報</a></span>
 </div>
 </nav>
-<div style="padding-left:200px ;padding-right:550px">
-    <div style="background:white;border-radius: 12px;white:220px;height:450px;padding-top:20px;padding-left:20px;padding-right:20px">
+<div style="padding-left:200px ;padding-right:400px">
+    <div style="background-color:black; overflow:auto;background:linear-gradient(rgba(0,0,0,0.2),rgba(0,0,0,0.2));border-radius: 35px;white:220px;height:450px;padding-top:20px;padding-left:20px;padding-right:20px">
 
-        <div style="color:#23ade5 ;font-size:24px;border-bottom: 1px solid #e3e8ec;">使用者信息</div></br>
+        <div style="color:white ;font-size:30px;border-bottom: 1px solid #e3e8ec; font-weight:bold;">使用者信息</div></br>
     <div style="font-size:20px;padding-left:30px;color:gray;">
     <form action="" method="" name="commit" >{% csrf_token %}
-        <div style="padding:5px;">使用者:{{username}}</div>
+        <div style="padding:5px;font-weight:bold;color:black;font-size: 24px;">使用者:{{username}}</div>
             <input  type="hidden" name="username" value="{{username}}">
-            <div style="padding:5px;">
+            <div style="padding:5px;font-weight:bold;color:black;font-size: 24px;">
             問題回報:</br>
-            <textarea style="border-radius: 20px 20px 20px 20px;" id="commitreport" placeholder="輸入1~200字" name="report"rows="5"cols="60"required></textarea></br>
+            <textarea style="border-radius: 20px 20px 20px 20px;" id="commitreport" placeholder="輸入1~200字" name="report" rows="5" cols="75" required></textarea></br>
+            
             
         <div style="padding:5px;">
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#edt">確認</button>

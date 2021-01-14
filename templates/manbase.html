@@ -3,7 +3,7 @@
 <!-- Head -->
 
 <head>
-    <title>Key Login Form Flat Responsive Widget Template :: W3layouts</title>
+    <title>後臺管理</title>
     <!-- Meta-Tags -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
@@ -43,20 +43,20 @@
 <section class="main2" >
 	<div class="layer">
 		<!--background: url(../images/bg2.jpg) no-repeat center;-->
-		<div class="bottom-grid">
+		<div class="bottom-grid" style="border-bottom-style:solid;border-width:1px;border-color:#959698;">
 			<div class="logo">
-				<h1> <a href={% url 'ManagerPassword' %}><span class="fa fa-tint"></span>後臺管理</a></h1>
+				<h1> <a href={% url 'ManagerPassword' %} style="color:#3a91ec;font-weight:bold;font-size:34px;"><span class="fa fa-tint"></span>後臺管理</a></h1>
 			</div>
 			<div class="links">
 				<ul class="links-unordered-list">
 					<!--<li class="active">-->
                     {% if request.session.is_login %}
                     <li class="">
-						<a href="{% url 'ManagerPassword' %}">{{request.session.username }}</a>
+						<a href="{% url 'ManagerPassword' %}" style="font-size:24px;color:black; font-weight:bold;">{{request.session.username }}</a>
 					</li>
                     <li class="">
-						<a href="{% url 'Managerlogout' %}">登出</a>
-					</li>-
+						<a href="{% url 'Managerlogout' %}" style="font-size:24px;color:black; font-weight:bold;">登出</a>
+					</li>
                     {% else %}
                     <!--<li class="">
 						<a href="{% url 'Login' %}">Login</a>

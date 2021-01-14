@@ -38,13 +38,20 @@
   </script>
 
 </head>
-    
+            <style>
+    input::placeholder {
+  color: white;
+  font-size: 1.2em;
+  font-style: italic;
+}
+    </style>
 {% extends "manbase.html" %}
 <style>
         .main{
             background: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)),url(../images/bg2.jpg) no-repeat center;
         }
     </style>
+
 <body>
 
 
@@ -77,18 +84,18 @@
     <div class="content-bottom">
     <div class="content-w3ls">
 			<div class="text-center icon">
-				<span class="fa fa-tint"></span>
+				<span class="" style="font-family:fantasy;color:white;font-size:26px;font-weight:bold;">管理員登入</span>
 				<form action="#" method="post">{% csrf_token %}
 					<div class="field-group">
 						<span class="fa fa-user" aria-hidden="true" style="font-size:54px"></span>
 						<div class="wthree-field">
-							<input type="text" placeholder="Username" name="username" required autocomplete="off">
+							<input type="text" placeholder="Username" name="username" style="color:white;font-size: 1.2em;" required autocomplete="off">
 						</div>
 					</div>
 					<div class="field-group">
 						<span class="fa fa-lock" aria-hidden="true" style="font-size:56px"></span>
 						<div class="wthree-field">
-							<input type="password" placeholder="Password" name="password">
+							<input type="password" placeholder="Password" style="color:white;font-size: 1.2em;" name="password">
 						</div>
 					</div>
 					<div class="wthree-field">

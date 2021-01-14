@@ -21,8 +21,9 @@ from trips.models import Report
 from django.db.models import Count
 from django.urls import reverse
 
-
 # 沒用
+
+
 def hello_world(request):
     name = Table1.objects.all()
 
@@ -51,14 +52,36 @@ def base(request):
     })
 
 
+def api(name, password):
+    username = "qaz123"
+    passwd = "qaz123"
+    if(name == username and password == passwd):
+        data = "登入成功"
+    else:
+        data = "帳號密碼不正確"
+    return data
 # 沒用
-def result(request):
-    return render(request, 'base.html', {
 
-    })
+
+def result(request):
+    if request.method == "POST":
+        if request.POST:
+            username = request.POST.get("username", None)
+            password = request.POST.get("password", None)
+            Table1.objects.create(name=username, password=password)
+            result = api(username, password)
+
+            return HttpResponse(result)
+        else:
+            return HttpResponse("請輸入參數")
+
+    else:
+        return HttpResponse("請求方法不正確")
 
 
 # 首頁
+
+
 def home(request):
     if request.session['is_login'] == True:
         username = request.session['username']
@@ -71,10 +94,6 @@ def home(request):
         rainfallcountry = TestRainfall.objects.values(
             'country').annotate(id=Count('id'))
 
-        '''
-        japanyear = TestRainfall.objects.filter(country="日本").values(
-            'year').annotate(id=Count('id'))
-        '''
         rainfallyear = TestRainfall.objects.values(
             'year').annotate(id=Count('id'))
         alldata = TestRainfall.objects.all()
@@ -91,9 +110,37 @@ def home(request):
             return render(request, "home.html", {'username': username, })
         return render(request, "home.html", {'username': username, 'allyear': allyear})
     else:
-        messages.success(request, '請先登入')
+        messages.success(request, '尚未登入會員')
         return redirect("/login",)
 
+
+''' 測試用
+def home(request):
+
+    username = 'username'
+    
+    # data = TestRainfall.objects.filter(year=1998, month=2, country="台灣")
+    userid = Table1.objects.get(name=username).id
+    # userid = getuserid.id
+    getdata = TestRainfall.objects.filter(year=1998, month=2, country="台灣")
+    data = getdata[0].id
+    rainfallcountry = TestRainfall.objects.values(
+        'country').annotate(id=Count('id'))
+    rainfallyear = TestRainfall.objects.values(
+        'year').annotate(id=Count('id'))
+    alldata = TestRainfall.objects.all()
+    list_time = TestRainfall.objects.all().values_list('country', 'year', 'month')
+    allyear = []
+    for i in range(1990, 2026):
+        allyear.append(i)
+    if request.method == "POST":
+
+        country = request.POST.get("country", None)
+        year = request.POST.get("year", None)
+        month = request.POST.get("month", None)
+        return render(request, "home.html", {'username': username, })
+    return render(request, "home.html", {'username': username, 'allyear': allyear})
+'''
 # 查詢功能
 
 
@@ -146,7 +193,7 @@ def search(request):
                 sumcountryrainfall += getcountrytrainfall[i].rainfall
             avgcountryrainfall = sumcountryrainfall/getcountrytrainfallsize
 
-            return render(request, 'home.html', {'allyear': allyear, 'waterrainfall': getrainfallid[0].rainfall, 'rainfall': getcountrytrainfall, 'post': getpost, 'ifpost': ifpost, 'country': country, 'year': year, 'month': month, 'toyear': toyear, 'tomonth': tomonth, })
+            return render(request, 'home.html', {'allyear': allyear, 'waterrainfall': getrainfallid[0].rainfall, 'rainfall': getcountrytrainfall, 'post': getpost, 'ifpost': ifpost, 'country': country, 'year': int(year), 'month': month, 'toyear': toyear, 'tomonth': tomonth, })
 
         getrainfallsize = getrainfall.count()
         sumrainfall = 0
@@ -235,7 +282,7 @@ def memberpost(request):
 
         getuser = Table1.objects.filter(name=username)
         getuserid = getuser[0].id
-        getpost = Post.objects.filter(table1=getuserid)
+        getpost = Post.objects.filter(table1=getuserid).order_by('-id')
         return render(request, "memberpost.html", {'username': username, 'post': getpost})
     else:
         messages.success(request, '請先登入')
@@ -355,6 +402,26 @@ def login(request):
             return HttpResponse("使用者名稱不存在,請註冊")
     return render(request, "login.html",)
 
+
+'''
+def login(request):
+    if request.method == "POST":
+        username = request.POST.get("username", None)
+        password = request.POST.get("password", None)
+        list_user_pwd = Table1.objects.all().values_list('name', 'password')
+        if list_user_pwd:  # 取出資料庫表中username,userlist兩列生成一個列表
+            if (username, password) in list_user_pwd:
+                # messages.success(request, "登入成功")
+                messages.success(request, '登入成功')
+                return redirect("/login",)
+                # return render(request, "mainweb.html", {'messages': '登入成功'})
+            else:
+                messages.success(request, '帳號密碼錯誤')
+                return redirect("/login",)
+        else:
+            return HttpResponse("使用者名稱不存在,請註冊")
+    return render(request, "login.html",)
+'''
 # 會員登出
 
 
