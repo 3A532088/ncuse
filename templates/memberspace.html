@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block test %}
+<title>會員中心</title>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
 <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -94,11 +95,11 @@ main, nav {
             <input  type="hidden" name="username" value="{{username}}">
             <div style="padding:5px;font-weight:bold;color:black;font-size: 24px;">
             新密碼:&thinsp;&emsp;
-            <input class="border" style="border-radius:10px;" type="text" id="password" name="password" ></div>
+            <input class="border" style="border-radius:10px;" type="password"  id="password" name="password" ></div>
 
             <div style="padding:5px;font-weight:bold;color:black;font-size: 24px;">
             確認密碼:&thinsp;
-            <input class="border" style="border-radius:10px;" type="text" id="checkpassword" name="checkpassword" ></div>
+            <input class="border" style="border-radius:10px;" type="password"  id="checkpassword" name="checkpassword" ></div>
         <div style="padding:5px;">
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#edt">確認</button>
         <!--<input type ="button" class="btn btn-secondary" onclick="javascript:location.href='{% url 'Memberspace' %}'" value="返回"></input>-->

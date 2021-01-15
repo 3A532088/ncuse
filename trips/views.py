@@ -296,8 +296,11 @@ def memberreport(request):
         username = request.session['username']
         getreport = request.POST.get("report", None)
         userid = Table1.objects.get(name=username)
-        Report.objects.create(table1=userid, post=getreport)
-        return render(request, "memberreport.html", {'username': username, })
+        if request.method == "POST":
+            Report.objects.create(table1=userid, post=getreport)
+            return render(request, "memberreport.html", {'username': username, })
+        else:
+            return render(request, "memberreport.html", {'username': username, })
     else:
         messages.success(request, '請先登入')
         return redirect("/login",)
@@ -463,7 +466,7 @@ def managerlogin(request):
 def manager(request):
     if request.session['is_login'] == True:
         username = request.session['username']
-        getuser = Table1.objects.all()
+        getuser = Table1.objects.all().order_by('-id')
 
         return render(request, "managerpassword.html", {'username': username, 'data': getuser, })
     else:
@@ -499,7 +502,7 @@ def managerpasswordsearch(request):
 def managerpost(request):
     if request.session['is_login'] == True:
         username = request.session['username']
-        getpost = Post.objects.all()
+        getpost = Post.objects.all().order_by('-id')
 
         return render(request, "managerpost.html", {'username': username, 'post': getpost, })
     else:
@@ -512,7 +515,7 @@ def managerpost(request):
 def managerreport(request):
     if request.session['is_login'] == True:
         username = request.session['username']
-        getpost = Report.objects.all()
+        getpost = Report.objects.all().order_by('-id')
 
         return render(request, "managerreport.html", {'username': username, 'post': getpost, })
     else:
